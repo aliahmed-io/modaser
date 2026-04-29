@@ -345,6 +345,7 @@ const CakeCard = ({ cake, index, onSelect }: { cake: CakeOption; index: number; 
     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
   </motion.button>
 );
+};
 
 export const CakeCutting = () => {
   const isMobile = useIsMobile();
