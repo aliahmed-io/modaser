@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Sparkle {
   id: number;
@@ -19,19 +20,23 @@ interface Orb {
 }
 
 const orbColors = [
-  "hsl(45, 100%, 70%)",   // gold
-  "hsl(330, 85%, 65%)",   // pink
-  "hsl(200, 80%, 65%)",   // sky blue
-  "hsl(270, 60%, 60%)",   // purple
+  "hsl(45, 100%, 70%)",
+  "hsl(330, 85%, 65%)",
+  "hsl(200, 80%, 65%)",
+  "hsl(270, 60%, 60%)",
 ];
 
 export const Sparkles = ({ count = 20 }: { count?: number }) => {
+  const isMobile = useIsMobile();
+  const sparkleCount = isMobile ? 6 : count;
+  const orbCount = isMobile ? 0 : 12; // Skip blurred orbs on mobile entirely
+
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
   const [orbs, setOrbs] = useState<Orb[]>([]);
 
   useEffect(() => {
     setSparkles(
-      Array.from({ length: count }, (_, i) => ({
+      Array.from({ length: sparkleCount }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
@@ -40,7 +45,7 @@ export const Sparkles = ({ count = 20 }: { count?: number }) => {
       }))
     );
     setOrbs(
-      Array.from({ length: 12 }, (_, i) => ({
+      Array.from({ length: orbCount }, (_, i) => ({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
@@ -50,7 +55,7 @@ export const Sparkles = ({ count = 20 }: { count?: number }) => {
         color: orbColors[i % orbColors.length],
       }))
     );
-  }, [count]);
+  }, [sparkleCount, orbCount]);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-5">
@@ -72,7 +77,7 @@ export const Sparkles = ({ count = 20 }: { count?: number }) => {
           </svg>
         </div>
       ))}
-      {/* Floating orbs */}
+      {/* Floating orbs — desktop only */}
       {orbs.map((o) => (
         <div
           key={`orb-${o.id}`}

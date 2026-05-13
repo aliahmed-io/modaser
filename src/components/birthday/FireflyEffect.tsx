@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useMemo } from "react";
 
 interface Firefly {
   id: number;
@@ -10,14 +12,23 @@ interface Firefly {
 }
 
 export const FireflyEffect = ({ intensity = 15 }) => {
-  const fireflies: Firefly[] = Array.from({ length: intensity }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 2,
-    duration: 4 + Math.random() * 2,
-    size: 2 + Math.random() * 3,
-  }));
+  const isMobile = useIsMobile();
+  const count = isMobile ? 0 : intensity; // Skip entirely on mobile
+
+  const fireflies: Firefly[] = useMemo(
+    () =>
+      Array.from({ length: count }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        delay: Math.random() * 2,
+        duration: 4 + Math.random() * 2,
+        size: 2 + Math.random() * 3,
+      })),
+    [count]
+  );
+
+  if (isMobile) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">

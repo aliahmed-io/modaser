@@ -167,14 +167,6 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
           <stop offset="0%" stopColor="white" stopOpacity="0.4" />
           <stop offset="100%" stopColor="black" stopOpacity="0.1" />
         </radialGradient>
-        <filter id="frostingTexture">
-          <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
-          <feDiffuseLighting in="noise" lightingColor="white" surfaceScale="2">
-            <feDistantLight azimuth="45" elevation="60" />
-          </feDiffuseLighting>
-          <feComposite operator="in" in2="SourceGraphic" />
-          <feBlend mode="multiply" in2="SourceGraphic" />
-        </filter>
       </defs>
 
       {/* Ground Shadow */}
@@ -184,7 +176,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
       <g style={{ transform: split ? "translateX(-40px) rotate(-12deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
         <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill={cake.layers[0]} filter="url(#cakeDepth)" />
         <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill="url(#layerGrad)" />
-        <path d="M15,140 Q57.5,150 100,140 Q57.5,130 15,140 Z" fill={cake.frosting} filter="url(#frostingTexture)" />
+        <path d="M15,140 Q57.5,150 100,140 Q57.5,130 15,140 Z" fill={cake.frosting} />
         {/* Drip Effect */}
         <path d="M30,145 Q35,160 40,145" fill={cake.frosting} opacity="0.8" />
         <path d="M60,142 Q65,155 70,142" fill={cake.frosting} opacity="0.8" />
@@ -192,7 +184,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
       <g style={{ transform: split ? "translateX(40px) rotate(12deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
         <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill={cake.layers[0]} filter="url(#cakeDepth)" />
         <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill="url(#layerGrad)" />
-        <path d="M100,140 Q142.5,150 185,140 Q142.5,130 100,140 Z" fill={cake.frosting} filter="url(#frostingTexture)" />
+        <path d="M100,140 Q142.5,150 185,140 Q142.5,130 100,140 Z" fill={cake.frosting} />
         {/* Drip Effect */}
         <path d="M120,145 Q125,160 130,145" fill={cake.frosting} opacity="0.8" />
         <path d="M150,142 Q155,155 160,142" fill={cake.frosting} opacity="0.8" />
@@ -202,14 +194,14 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
       <g style={{ transform: split ? "translateX(-25px) rotate(-8deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
         <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill={cake.layers[1]} filter="url(#cakeDepth)" />
         <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill="url(#layerGrad)" />
-        <path d="M30,95 Q65,105 100,95 Q65,85 30,95 Z" fill={cake.frosting} filter="url(#frostingTexture)" opacity="0.9" />
+        <path d="M30,95 Q65,105 100,95 Q65,85 30,95 Z" fill={cake.frosting} opacity="0.9" />
         {/* Drip Effect */}
         <path d="M45,100 Q50,115 55,100" fill={cake.frosting} opacity="0.8" />
       </g>
       <g style={{ transform: split ? "translateX(25px) rotate(8deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
         <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill={cake.layers[1]} filter="url(#cakeDepth)" />
         <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill="url(#layerGrad)" />
-        <path d="M100,95 Q135,105 170,95 Q135,85 100,95 Z" fill={cake.frosting} filter="url(#frostingTexture)" opacity="0.9" />
+        <path d="M100,95 Q135,105 170,95 Q135,85 100,95 Z" fill={cake.frosting} opacity="0.9" />
         {/* Drip Effect */}
         <path d="M130,100 Q135,115 140,100" fill={cake.frosting} opacity="0.8" />
       </g>
@@ -218,7 +210,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
       <g style={{ transform: split ? "translateX(-15px) rotate(-5deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
         <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill={cake.layers[2]} filter="url(#cakeDepth)" />
         <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill="url(#layerGrad)" />
-        <path d="M45,50 Q72.5,60 100,50 Q72.5,40 45,50 Z" fill={cake.frosting} filter="url(#frostingTexture)" />
+        <path d="M45,50 Q72.5,60 100,50 Q72.5,40 45,50 Z" fill={cake.frosting} />
         <path d="M45,50 Q72.5,60 100,50 Q72.5,40 45,50 Z" fill="url(#topFrosting)" />
         {/* Drip Effect */}
         <path d="M60,55 Q65,70 70,55" fill={cake.frosting} opacity="0.8" />
@@ -226,7 +218,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
       <g style={{ transform: split ? "translateX(15px) rotate(5deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
         <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill={cake.layers[2]} filter="url(#cakeDepth)" />
         <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill="url(#layerGrad)" />
-        <path d="M100,50 Q127.5,60 155,50 Q127.5,40 100,50 Z" fill={cake.frosting} filter="url(#frostingTexture)" />
+        <path d="M100,50 Q127.5,60 155,50 Q127.5,40 100,50 Z" fill={cake.frosting} />
         <path d="M100,50 Q127.5,60 155,50 Q127.5,40 100,50 Z" fill="url(#topFrosting)" />
         {/* Drip Effect */}
         <path d="M130,55 Q135,70 140,55" fill={cake.frosting} opacity="0.8" />
@@ -430,8 +422,8 @@ export const CakeCutting = () => {
   const cake = selectedCake || CAKE_OPTIONS[0];
 
   const lowMotion = isMobile || reduceMotion;
-  const dustCount = isMobile ? 16 : 40;
-  const sparkCount = isMobile ? 16 : 30;
+  const dustCount = isMobile ? 6 : 40;
+  const sparkCount = isMobile ? 8 : 30;
   const cakeSpring = { type: "spring", stiffness: isMobile ? 45 : 80, damping: isMobile ? 20 : 12 };
 
   return (

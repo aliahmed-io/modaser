@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useMemo } from "react";
 
 interface Star {
   id: number;
@@ -10,14 +12,22 @@ interface Star {
 }
 
 export const ShootingStars = ({ count = 10 }) => {
-  const stars: Star[] = Array.from({ length: count }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: 2 + Math.random() * 3,
-    delay: Math.random() * 3,
-    duration: 2 + Math.random() * 1.5,
-  }));
+  const isMobile = useIsMobile();
+
+  const stars: Star[] = useMemo(
+    () =>
+      Array.from({ length: isMobile ? 0 : count }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+        size: 2 + Math.random() * 3,
+        delay: Math.random() * 3,
+        duration: 2 + Math.random() * 1.5,
+      })),
+    [isMobile, count]
+  );
+
+  if (isMobile) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -41,23 +51,12 @@ export const ShootingStars = ({ count = 10 }) => {
             ease: "easeOut",
           }}
         >
-          <motion.div
-            className="w-1 h-1 bg-white rounded-full shadow-lg"
+          <div
+            className="w-1 h-1 bg-white rounded-full"
             style={{
               width: star.size,
               height: star.size,
-              boxShadow: "0 0 10px #fff, 0 0 20px #fff",
-            }}
-            animate={{
-              boxShadow: [
-                "0 0 5px #fff, 0 0 10px #fff",
-                "0 0 15px #fff, 0 0 25px #fff",
-                "0 0 5px #fff, 0 0 10px #fff",
-              ],
-            }}
-            transition={{
-              duration: 0.3,
-              repeat: Infinity,
+              boxShadow: "0 0 8px #fff, 0 0 16px #fff",
             }}
           />
         </motion.div>

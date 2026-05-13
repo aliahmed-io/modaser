@@ -35,7 +35,9 @@ export const useConfetti = () => {
         colors: ["#38bdf8", "#f97316", "#34d399"],
         scalar: isMobile ? 0.8 : 1,
       });
-      if (Date.now() < end) requestAnimationFrame(fire);
+      if (Date.now() < end) {
+        setTimeout(() => requestAnimationFrame(fire), isMobile ? 100 : 30);
+      }
     };
     fire();
   }, [isMobile]);

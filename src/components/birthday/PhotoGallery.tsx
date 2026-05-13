@@ -103,7 +103,7 @@ export const PhotoGallery = () => {
         <motion.div 
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          style={{ rotateX, rotateY, perspective: 1000 }}
+          style={isMobile ? undefined : { rotateX, rotateY, perspective: 1000 }}
           className={`relative group ${isMobile ? '' : 'cursor-none'}`}
         >
           <AnimatePresence mode="wait">
@@ -124,7 +124,7 @@ export const PhotoGallery = () => {
                   loop
                   muted
                   playsInline
-                  className="w-full h-full object-cover transition-transform duration-[3000ms]"
+                  className="w-full h-full object-cover transition-transform duration-1000"
                 />
               ) : (
                 <img
@@ -132,7 +132,7 @@ export const PhotoGallery = () => {
                   alt={photos[activeIndex].caption}
                   onLoad={(e) => handleImageLoad(photos[activeIndex].key, e)}
                   loading="lazy"
-                  className={`w-full h-full object-cover transition-transform duration-[3000ms] ${!isMobile ? "group-hover:scale-110" : ""}`}
+                  className={`w-full h-full object-cover transition-transform duration-1000 ${!isMobile ? "group-hover:scale-110" : ""}`}
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
