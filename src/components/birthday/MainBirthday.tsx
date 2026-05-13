@@ -236,7 +236,7 @@ export const MainBirthday = () => {
       {/* Mega Surprise Overlay */}
       {megaSurprise && (
         <div className="fixed inset-0 z-[100] bg-white/20 backdrop-blur-sm pointer-events-none animate-flash flex items-center justify-center">
-          <h1 className="text-6xl md:text-9xl font-black text-white drop-shadow-2xl animate-bounce">MEGA SURPRISE! 🎊</h1>
+          <h1 className="text-6xl md:text-9xl font-black text-white drop-shadow-2xl animate-bounce">مفاجأة كبرى! 🎊</h1>
         </div>
       )}
 
@@ -280,13 +280,13 @@ export const MainBirthday = () => {
             🎂
           </motion.div>
           {cakeClicks > 0 && cakeClicks < 7 && (
-            <p className="text-primary font-bold animate-pulse">Click 🎂 {7 - cakeClicks} more times!</p>
+            <p className="text-primary font-bold animate-pulse">اضغطي 🎂 {7 - cakeClicks} مرات كمان!</p>
           )}
         </motion.div>
 
         <motion.h1 variants={itemVariants} className="font-display text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black mb-4 break-words leading-tight px-2">
           <span className="bg-gradient-to-r from-[var(--color-primary)] via-[hsl(45,100%,75%)] to-[hsl(200,80%,70%)] bg-clip-text text-transparent animate-gradient-shift drop-shadow-[0_4px_30px_rgba(255,255,255,0.3)]">
-            {age ? `Happy ${age}th Birthday` : "Happy Birthday"}
+            {age ? `عيد ميلاد سعيد الـ ${age}` : "عيد ميلاد سعيد"}
           </span>
         </motion.h1>
 
@@ -348,10 +348,10 @@ export const MainBirthday = () => {
           <div className="absolute top-0 right-0 p-8 opacity-10 text-9xl">✨</div>
           <div className="text-7xl text-center mb-10 animate-bounce">💌</div>
           <h3 className="font-display text-4xl md:text-6xl font-black text-center mb-12 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            {relationship === 'partner' ? "From My Heart" : relationship === 'friend' ? "Legendary Message" : "A Special Message"}
+            {relationship === 'partner' ? "من أعماق قلبي" : relationship === 'friend' ? "رسالة أسطورية" : "رسالة خاصة"}
           </h3>
           <div className="space-y-10 text-center text-2xl md:text-3xl text-foreground/90 leading-relaxed">
-            <p className="font-display font-black text-3xl md:text-5xl" style={{ color: primaryColor }}>Dear {name},</p>
+            <p className="font-display font-black text-3xl md:text-5xl" style={{ color: primaryColor }}>عزيزتي {name}،</p>
             {customMessage ? (
               <p className="italic font-light text-3xl md:text-5xl leading-tight">"{customMessage}"</p>
             ) : (
@@ -367,7 +367,7 @@ export const MainBirthday = () => {
                 onDoubleClick={() => { fireCannon(); playBoom(); }}
                 title="Double tap for a surprise!"
               >
-                {config.letterTitle || "A Special Letter Just for You 💌"}
+                {config.letterTitle || "جواب خاص ليكي لوحدك 💌"}
               </h4>
               <div className="text-left text-lg md:text-xl leading-relaxed whitespace-pre-line font-light">
                 {config.letterOverride
@@ -407,7 +407,7 @@ export const MainBirthday = () => {
 
       {/* Wishes Section */}
       <section className="relative z-20 px-4 pb-32">
-        <h3 className="font-display text-5xl md:text-8xl font-black text-center mb-20 drop-shadow-xl" style={{ color: primaryColor }}>Wishes for You ✨</h3>
+        <h3 className="font-display text-5xl md:text-8xl font-black text-center mb-20 drop-shadow-xl" style={{ color: primaryColor }}>أماني ليكي ✨</h3>
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
           {bigWishes.map((item, i) => (
             <motion.div
@@ -443,7 +443,7 @@ export const MainBirthday = () => {
           >
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
-                <p className="text-2xl md:text-3xl font-display font-black text-white">🎁 Hidden Gift Code</p>
+                <p className="text-2xl md:text-3xl font-display font-black text-white">🎁 كود الهدية السري</p>
                 <p className="mt-3 text-sm md:text-base text-foreground/70 max-w-2xl leading-relaxed">
                   The party starts first, the crowd is hyped, and only then does the gift reveal open. Tap now to trigger the tease, light the dance floor, and keep the surprise waiting for its perfect moment.
                 </p>
@@ -527,9 +527,9 @@ export const MainBirthday = () => {
       {/* Magnetic Buttons Section */}
       <section className="relative z-20 flex flex-wrap justify-center gap-8 px-4 pb-32">
         {[
-          { label: "🎊 Cannon!", color: primaryColor, action: fireCannon },
-          { label: "🎈 Party!", color: "hsl(45, 100%, 50%)", action: fireConfetti },
-          { label: "💫 Love!", color: "hsl(200, 80%, 50%)", action: () => { for (let i = 0; i < 5; i++) setTimeout(addEmoji, i * 200); } }
+          {label: "🎊 مدفع!", color: primaryColor, action: fireCannon },
+          {label: "🎈 حفلة!", color: "hsl(45, 100%, 50%)", action: fireConfetti },
+          {label: "💫 حب!", color: "hsl(200, 80%, 50%)", action: () => { for (let i = 0; i < 5; i++) setTimeout(addEmoji, i * 200); } }
         ].map((btn, i) => (
           <motion.button
             key={i}
@@ -562,7 +562,7 @@ export const MainBirthday = () => {
           className="text-center"
         >
           <h3 className="font-display text-4xl sm:text-6xl md:text-7xl font-black mb-8 sm:mb-12 drop-shadow-xl" style={{ color: primaryColor }}>
-            Time to Cut the Cake! 🎂
+            وقت تقطيع التورتة! 🎂
           </h3>
           <p className="text-xl sm:text-2xl md:text-3xl text-foreground/80 mb-10 sm:mb-12 max-w-2xl mx-auto">
             Ready for the sweetest moment? Let's make some magic happen! ✨
@@ -577,7 +577,7 @@ export const MainBirthday = () => {
               boxShadow: `0 15px 45px -10px ${primaryColor}60` 
             }}
           >
-            🎂 Start Cake Cutting
+            🎂 ابدأ تقطيع التورتة
           </motion.button>
           <CakeCutting />
         </motion.div>

@@ -22,58 +22,35 @@ export const BirthdayQuiz = () => {
   const [selected, setSelected] = useState<number | null>(null);
 
   const questions: Question[] = useMemo(() => {
-    const { name, interests, relationship, gender } = config;
     const base: Question[] = [
       {
-        q: `Who is the most legendary person born on this day?`,
-        options: ["Albert Einstein", "A Celebrity", name, "A Penguin"],
-        correct: 2,
-        reason: `Duh! It's obviously ${name}! Nobody else comes close.`
+        q: `اسم دلعي ايه؟`,
+        options: ["حمودي", "مودي", "حبيبي", "ميدو"],
+        correct: 0,
+        reason: `طبعاً حمودي! أحلى اسم من أحلى بنت.`
       },
       {
-        q: `What is ${name}'s current mood today?`,
-        options: ["Sleepy", "Hungry", "Super OP & Legendary", "Bored"],
-        correct: 2,
-        reason: "It's their birthday! They are in God Mode today."
+        q: `أول يوم قابلتك؟`,
+        options: ["10/9", "13/9", "15/9", "20/9"],
+        correct: 1,
+        reason: `13/9... اليوم اللي حياتي اتغيرت فيه.`
+      },
+      {
+        q: `أول درس شفتك فيه؟`,
+        options: ["درس العربي", "درس الرياضة", "درس الإنجليزي", "؟"],
+        correct: 3,
+        reason: `مهما كان الدرس، انتي اللي خطفتي عيني! 😅`
+      },
+      {
+        q: `مين أم عيالي؟`,
+        options: ["أم ليلى", "رندا", "رورو", "كل ما سبق"],
+        correct: 0,
+        reason: `أم ليلى طبعاً، ربنا يخليكي ليا يا رب.`
       }
     ];
 
-    if (interests?.includes('car')) {
-      base.push({
-        q: `If ${name} could have any car today, what would it be?`,
-        options: ["A Cycle", "A Supercar", "A Bus", "A Scooter"],
-        correct: 1,
-        reason: "Because legends drive fast!"
-      });
-    }
-
-    if (relationship === 'partner') {
-      base.push({
-        q: `Who loves ${name} the most in the entire universe?`,
-        options: ["The Cat", "Their Neighbor", "The Person Who Sent This Website", "A Martian"],
-        correct: 2,
-        reason: "The person who sent this loves them more than stars in the sky."
-      });
-    }
-
-    if (interests?.includes('coding')) {
-      base.push({
-        q: `What is ${name}'s biggest fear?`,
-        options: ["Spiders", "Heights", "A bug in production at 4 PM on a Friday", "Running out of coffee"],
-        correct: 2,
-        reason: "Real coders know... bugs are the ultimate nightmare!"
-      });
-    }
-
-    base.push({
-      q: `If ${name} was a superhero, what would their name be?`,
-      options: ["Captain Sleep-A-Lot", "The Procrastinator", "Super Legendary Birthday Person", "Iron Coffee-Man"],
-      correct: 2,
-      reason: "Today, you're the hero we all need!"
-    });
-
     return base;
-  }, [config]);
+  }, []);
 
   const handleSelect = (idx: number) => {
     if (selected !== null) return;
@@ -170,9 +147,9 @@ export const BirthdayQuiz = () => {
               </div>
             </div>
             
-            <h2 className="font-display text-4xl md:text-6xl font-black">LEGENDARY SCORE!</h2>
+            <h2 className="font-display text-4xl md:text-6xl font-black">نتيجة أسطورية!</h2>
             <p className="text-2xl md:text-3xl text-foreground/80">
-              You scored <span className="text-primary font-black">{score}/{questions.length}</span> on the {config.name} Trivia!
+              إنتي جبتي <span className="text-primary font-black">{score}/{questions.length}</span> في اختبار {config.name}!
             </p>
             
             <div className="flex justify-center gap-4 text-primary">
@@ -194,7 +171,7 @@ export const BirthdayQuiz = () => {
               }}
               className="px-10 py-4 bg-primary text-white rounded-full font-black tracking-widest uppercase text-sm shadow-2xl shadow-primary/30"
             >
-              Play Again 🔄
+              العب تاني 🔄
             </motion.button>
           </motion.div>
         )}

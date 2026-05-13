@@ -83,11 +83,11 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
 
     if (relationship === 'partner') {
       return [
-        "There's someone who has been the center of my world...",
-        `Someone who makes every second feel like a movie scene...`,
-        isMale ? "The man who redefined what strength and kindness mean to me..." : isFemale ? "The woman whose grace and beauty light up every room she enters..." : "The soul who makes me believe in magic every single day...",
-        "I could have just texted 'I love you'...",
-        "But a simple message could never hold all that I feel for you."
+        "في يوم زي ده، الدنيا نورت...",
+        "بنت عينها خضرا غيرت كل حياتي...",
+        "بنت روحها هادية وبتحلي أي مكان...",
+        "بنت بقالي 3 سنين مستني اللحظة دي عشان أقولها...",
+        "كل سنة وإنتي أجمل من اللي قبلها ❤️"
       ];
     }
     if (relationship === 'friend') {
@@ -116,10 +116,10 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
       "So let's get this party started! 🎉",
     ];
     if (relationship === 'partner') return [
-      "But you are so much more than just a partner to me...",
-      "You are my safe haven, my greatest adventure, and my home.",
-      "I stayed up late, making sure every pixel was perfect... just like you.",
-      "Are you ready for the big reveal? ❤️",
+      "بس إنتي أكتر من مجرد حبيبة بالنسبة لي...",
+      "إنتي الأمان، والمغامرة، والبيت.",
+      "فضلت سهران أتأكد إن كل تفصيلة هنا تكون مثالية... زيك بالظبط.",
+      "جاهزة للمفاجأة الكبيرة؟ ❤️",
     ];
     return [
       "You bring so much warmth into our lives...",
@@ -134,10 +134,10 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
     const isFemale = gender === 'female';
 
     if (relationship === 'partner') return [
-      `My dearest ${name || (isMale ? 'Prince' : isFemale ? 'Princess' : 'Love')}`,
-      "I hope you felt the heartbeat behind every animation...",
-      "You are my today, my tomorrow, and my always ✨",
-      "Happy Birthday, I love you infinitely! 💖"
+      `حبيبتي الغالية ${name || 'رندا'}`,
+      "أتمنى تكوني حسيتي بكل كلمة وكل نبضة ورا المفاجأة دي...",
+      "إنتي حاضري ومستقبلي وكل دنيتي ✨",
+      "عيد ميلاد سعيد، بحبك أكتر مما تتخيلي! 💖"
     ];
     if (relationship === 'friend') return [
       `Happy Birthday ${name || (isMale ? 'Bro' : isFemale ? 'Bestie' : 'Legend')}!`,

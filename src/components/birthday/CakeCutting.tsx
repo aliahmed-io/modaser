@@ -22,7 +22,7 @@ type Phase =
 const CAKE_OPTIONS = [
   {
     id: "chocolate",
-    name: "Chocolate Dream",
+    name: "حلم الشوكولاتة",
     layers: ["hsl(15,60%,30%)", "hsl(15,50%,40%)", "hsl(20,40%,50%)"],
     frosting: "hsl(30,70%,70%)",
     accent: "hsl(45,100%,60%)",
@@ -31,7 +31,7 @@ const CAKE_OPTIONS = [
   },
   {
     id: "strawberry",
-    name: "Strawberry Bliss",
+    name: "سعادة الفراولة",
     layers: ["hsl(340,60%,55%)", "hsl(330,55%,65%)", "hsl(340,50%,75%)"],
     frosting: "hsl(350,80%,88%)",
     accent: "hsl(0,80%,60%)",
@@ -40,7 +40,7 @@ const CAKE_OPTIONS = [
   },
   {
     id: "royal",
-    name: "Royal Velvet",
+    name: "المخمل الملكي",
     layers: ["hsl(270,50%,35%)", "hsl(280,45%,50%)", "hsl(290,40%,60%)"],
     frosting: "hsl(45,100%,75%)",
     accent: "hsl(45,100%,60%)",
@@ -49,7 +49,7 @@ const CAKE_OPTIONS = [
   },
   {
     id: "nature",
-    name: "Floral Garden",
+    name: "حديقة الزهور",
     layers: ["hsl(120,40%,30%)", "hsl(100,30%,40%)", "hsl(140,40%,50%)"],
     frosting: "hsl(80,50%,80%)",
     accent: "hsl(330,85%,65%)",
@@ -365,11 +365,11 @@ export const CakeCutting = () => {
     const isFemale = gender === 'female';
 
     if (relationship === 'partner') return [
-      { text: `My ${isMale ? 'Prince' : isFemale ? 'Princess' : 'Everything'}...`, animation: "zoom-in" as const },
-      { text: "Make a wish for our future...", animation: "float" as const },
-      { text: "I love you to the stars and back", animation: "pop-out" as const },
-      { text: "Happy Birthday My Love! ❤️", animation: "typewriter-burst" as const },
-      { text: `Forever Yours ✨`, animation: "pop-out" as const },
+      { text: `إلى ملكتي وأجمل ما في دنيتي...`, animation: "zoom-in" as const },
+      { text: "اتمني أمنية لمستقبلنا سوا...", animation: "float" as const },
+      { text: "بحبك لحد النجوم ولفوق", animation: "pop-out" as const },
+      { text: "عيد ميلاد سعيد يا روحي! ❤️", animation: "typewriter-burst" as const },
+      { text: `هفضل ليكي للأبد ✨`, animation: "pop-out" as const },
     ];
     if (relationship === 'friend') return [
       { text: `Yo ${name || 'Legend'}!`, animation: "pop-out" as const },
@@ -459,7 +459,7 @@ export const CakeCutting = () => {
                     className="flex flex-col items-center gap-12"
                   >
                     <h2 className="font-display text-3xl sm:text-4xl text-white font-black text-center tracking-tighter animate-glow-pulse">
-                      ✨ MAKE A WISH & BLOW ✨
+                      ✨ اتمني أمنية وانفخي الشمع ✨
                     </h2>
                     <CakeSVG cake={cake} split={false} candlesLit={candlesLit} name={name} springConfig={cakeSpring} />
                     {phase === "blow-intro" && (
@@ -470,7 +470,7 @@ export const CakeCutting = () => {
                         className="group relative px-12 py-5 rounded-full text-xl font-black text-white overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.2)]"
                         style={{ background: "linear-gradient(90deg, #ff0080, #7928ca)" }}
                       >
-                        <span className="relative z-10">🌬️ BLOW NOW</span>
+                        <span className="relative z-10">🌬️ انفخي دلوقتي</span>
                         <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                       </motion.button>
                     )}
@@ -493,9 +493,9 @@ export const CakeCutting = () => {
                     </div>
                     <div className="text-center">
                       <h2 className="font-display text-4xl sm:text-6xl font-black bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent drop-shadow-2xl">
-                        WISH SENT TO THE STARS
+                        الأمنية طلعت للنجوم
                       </h2>
-                      <p className="text-white/60 text-xl mt-4 font-light italic">Wait for the magical cut...</p>
+                      <p className="text-white/60 text-xl mt-4 font-light italic">استني اللحظة السحرية...</p>
                     </div>
                   </motion.div>
                 )}
@@ -549,7 +549,7 @@ export const CakeCutting = () => {
                     onClick={() => setPhase("select")}
                     className="mt-16 px-10 py-4 rounded-full text-sm font-black uppercase tracking-[0.3em] text-white/40 hover:text-white border border-white/10 hover:bg-white/5 transition-all duration-500"
                   >
-                    ✕ Finish Experience
+                    ✕ إنهاء التجربة
                   </motion.button>
                 )}
               </div>
@@ -566,10 +566,10 @@ export const CakeCutting = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="font-display text-4xl sm:text-6xl md:text-8xl font-black mb-6 bg-gradient-to-b from-white to-white/20 bg-clip-text text-transparent"
           >
-            CHOOSE YOUR CAKE
+            اختاري التورتة
           </motion.h3>
           <p className="text-white/40 text-lg sm:text-xl mb-12 sm:mb-20 max-w-2xl mx-auto font-light tracking-widest uppercase">
-            A Masterpiece for every Masterpiece
+            كل تحفة فنية تستاهل تحفة زيها
           </p>
 
           <div className="flex flex-wrap justify-center gap-6 sm:gap-10">

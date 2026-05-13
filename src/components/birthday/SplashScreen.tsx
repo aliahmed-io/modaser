@@ -30,12 +30,12 @@ export const SplashScreen = ({ onStart }: SplashScreenProps) => {
       </div>
 
       <div className="text-7xl md:text-8xl animate-cake-glow mb-6">🎂</div>
-      <h2 className="font-display text-2xl md:text-4xl text-foreground animate-glow-pulse mb-10">
-        A Special Surprise Awaits...
+      <h2 className="font-display text-2xl md:text-4xl text-foreground animate-glow-pulse mb-10 text-center">
+        في مفاجأة خاصة مستنياكي...
       </h2>
       <div className="animate-pulse">
         <p className="text-muted-foreground text-lg md:text-xl tracking-widest uppercase">
-          ✨ Tap anywhere to begin ✨
+          ✨ اضغطي في أي مكان للبدء ✨
         </p>
       </div>
 

@@ -24,10 +24,10 @@ export const FinalSurprise = () => {
           className="text-center mb-20"
         >
           <h2 className="font-display text-5xl md:text-8xl font-black mb-6 bg-gradient-to-r from-primary via-white to-accent bg-clip-text text-transparent">
-            Our Special Memories 🎞️
+            ذكرياتنا الخاصة 🎞️
           </h2>
           <p className="text-xl md:text-2xl text-foreground/60 max-w-2xl mx-auto italic">
-            "A journey of a thousand miles begins with a single step, but it's the moments we share that make it worth traveling."
+            "مشوار الألف ميل بيبدأ بخطوة، بس اللحظات اللي بنشاركها هي اللي بتخلي الرحلة تستاهل."
           </p>
         </motion.div>
 
@@ -78,8 +78,8 @@ export const FinalSurprise = () => {
               />
             </div>
             <div className="p-10 text-center bg-gradient-to-t from-black/80 to-transparent">
-              <h4 className="font-display text-2xl md:text-4xl font-black mb-4">The Final Surprise 🎬</h4>
-              <p className="text-lg md:text-xl text-white/60 font-light">A little something extra to make your heart smile.</p>
+              <h4 className="font-display text-2xl md:text-4xl font-black mb-4">المفاجأة الأخيرة 🎬</h4>
+              <p className="text-lg md:text-xl text-white/60 font-light">حاجة بسيطة عشان تخليكي تبتسمي.</p>
             </div>
           </motion.div>
         )}
@@ -101,12 +101,12 @@ export const FinalSurprise = () => {
           
           <div className="space-y-6">
             <h3 className="font-display text-4xl md:text-7xl font-black tracking-tight leading-tight">
-              I Hope This Made Your <br />
-              <span style={{ color: primaryColor }} className="animate-pulse">Day As Special As You Are</span>
+              أتمنى تكون المفاجأة دي خلت يومك <br />
+              <span style={{ color: primaryColor }} className="animate-pulse text-primary">مميز زي ما إنتي مميزة</span>
             </h3>
             <p className="text-xl md:text-3xl font-light text-foreground/60 max-w-3xl mx-auto leading-relaxed">
-              Every pixel, every animation, and every word was crafted with love. <br />
-              Happy Birthday once again, {config.name}. ✨
+              كل تفصيلة، وكل حركة، وكل كلمة اتعملت بكل حب. <br />
+              عيد ميلاد سعيد مرة تانية يا {config.name}. ✨
             </p>
           </div>
 

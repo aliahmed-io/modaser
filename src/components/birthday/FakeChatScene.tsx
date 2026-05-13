@@ -17,11 +17,11 @@ export const FakeChatScene = ({ onComplete }: FakeChatSceneProps) => {
   const isMale = gender === 'male';
   const isFemale = gender === 'female';
 
-  const fullText = "Happy Birthday";
+  const fullText = "عيد ميلاد سعيد يا روحي";
   const retypeFullText = useMemo(() => {
-    if (relationship === 'partner') return isMale ? "To the man who holds my heart..." : isFemale ? "To the woman of my dreams..." : "To the soul who completes me...";
-    if (relationship === 'friend') return "Wait, a boring text? That's not us! 😂";
-    return "Something special is coming...";
+    if (relationship === 'partner') return isMale ? "لأغلى إنسان في حياتي..." : isFemale ? "لأجمل بنت شفتها عيني..." : "للي سكنت قلبي...";
+    if (relationship === 'friend') return "لحظة، كلام عادي؟ ده مش إحنا! 😂";
+    return "في حاجة مميزة جاية...";
   }, [relationship, isMale, isFemale]);
 
   const primaryColor = favoriteColor || '#FF6B6B';
@@ -84,7 +84,7 @@ export const FakeChatScene = ({ onComplete }: FakeChatSceneProps) => {
       bubbleOther: "rgba(255, 255, 255, 0.1)",
       bubbleMe: `${primaryColor}40`,
       icon: "💖",
-      status: "typing love notes...",
+      status: "بتكتبلك كلام من القلب...",
     };
     if (relationship === 'friend') return {
       bg: "rgba(10, 15, 25, 0.98)",
@@ -93,7 +93,7 @@ export const FakeChatScene = ({ onComplete }: FakeChatSceneProps) => {
       bubbleOther: "rgba(255, 255, 255, 0.08)",
       bubbleMe: `${primaryColor}60`,
       icon: "😎",
-      status: "setting up the vibe...",
+      status: "بتجهز المفاجأة...",
     };
     return {
       bg: "rgba(25, 20, 15, 0.95)",
@@ -102,7 +102,7 @@ export const FakeChatScene = ({ onComplete }: FakeChatSceneProps) => {
       bubbleOther: "rgba(255, 255, 255, 0.1)",
       bubbleMe: `${primaryColor}40`,
       icon: "🎈",
-      status: "sending warm vibes...",
+      status: "بتبعتلك حب...",
     };
   }, [relationship, primaryColor]);
 
@@ -113,49 +113,45 @@ export const FakeChatScene = ({ onComplete }: FakeChatSceneProps) => {
         animate={{ scale: 1, opacity: 1, y: 0, rotateX: 5 }}
         exit={{ scale: 1.2, opacity: 0, filter: "blur(40px)", rotateX: -20 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className="w-full max-w-md preserve-3d"
+        className="w-full max-w-md preserve-3d text-right"
       >
         <div 
           className="rounded-[3rem] overflow-hidden shadow-[0_60px_120px_-20px_rgba(0,0,0,0.8)] border backdrop-blur-2xl" 
           style={{ background: theme.bg, borderColor: theme.border }}
         >
           {/* Header */}
-          <div className="px-8 py-6 flex items-center gap-4 border-b" style={{ background: theme.headerBg, borderColor: theme.border }}>
+          <div className="px-8 py-6 flex flex-row-reverse items-center gap-4 border-b" style={{ background: theme.headerBg, borderColor: theme.border }}>
             <div className="w-14 h-14 rounded-full bg-white/5 flex items-center justify-center text-2xl shadow-xl border border-white/10">
               {theme.icon}
             </div>
-            <div>
-              <p className="text-white font-black tracking-tight text-lg">{name || 'Special Someone'}</p>
-              <div className="flex items-center gap-2">
+            <div className="text-right">
+              <p className="text-white font-black tracking-tight text-lg">{name || 'إنسانة مميزة'}</p>
+              <div className="flex flex-row-reverse items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]" />
                 <p className="text-xs text-green-500/80 font-bold uppercase tracking-widest">{theme.status}</p>
               </div>
-            </div>
-            <div className="ml-auto flex gap-5 text-white/30">
-              <span className="text-xl hover:text-white transition-colors cursor-pointer">📞</span>
-              <span className="text-xl hover:text-white transition-colors cursor-pointer">📹</span>
             </div>
           </div>
 
           {/* Body */}
           <div className="px-8 py-10 min-h-[300px] flex flex-col justify-end gap-4">
             <motion.div 
-              initial={{ opacity: 0, x: -30, scale: 0.9 }}
+              initial={{ opacity: 0, x: 30, scale: 0.9 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
-              className="self-start max-w-[85%] px-5 py-4 rounded-[1.5rem] rounded-bl-none text-base font-medium shadow-lg"
+              className="self-end max-w-[85%] px-5 py-4 rounded-[1.5rem] rounded-br-none text-base font-medium shadow-lg text-right"
               style={{ background: theme.bubbleOther, color: "rgba(255,255,255,0.9)" }}
             >
-              {relationship === 'partner' ? "Hey my love... ❤️" : relationship === 'friend' ? "Yoooo! 👋" : "Hi there! ✨"}
+              {relationship === 'partner' ? "يا روحي... ❤️" : relationship === 'friend' ? "يا بطل! 👋" : "أهلاً! ✨"}
             </motion.div>
             
             <motion.div 
-              initial={{ opacity: 0, x: -30, scale: 0.9 }}
+              initial={{ opacity: 0, x: 30, scale: 0.9 }}
               animate={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ delay: 0.5 }}
-              className="self-start max-w-[85%] px-5 py-4 rounded-[1.5rem] rounded-bl-none text-base font-medium shadow-lg"
+              className="self-end max-w-[85%] px-5 py-4 rounded-[1.5rem] rounded-br-none text-base font-medium shadow-lg text-right"
               style={{ background: theme.bubbleOther, color: "rgba(255,255,255,0.9)" }}
             >
-              {relationship === 'partner' ? "I stayed up late thinking about you... ❤️" : relationship === 'friend' ? "Prepare yourself for something epic... 🚀" : "I have a special surprise for you..."}
+              {relationship === 'partner' ? "من كتر ما بفكر فيكي، عملتلك حاجة بسيطة تعبر عن حبي... ❤️" : relationship === 'friend' ? "جهز نفسك لحاجة أسطورية... 🚀" : "عندي مفاجأة خاصة ليكي..."}
             </motion.div>
 
             {/* Typing Bubble */}
@@ -213,7 +209,7 @@ export const FakeChatScene = ({ onComplete }: FakeChatSceneProps) => {
               className="text-center mt-16 px-6"
             >
               <p className="text-3xl md:text-4xl font-display font-black leading-tight bg-gradient-to-r from-white via-white/80 to-white/60 bg-clip-text text-transparent">
-                {relationship === 'partner' ? `Because ${isMale ? 'a King' : isFemale ? 'a Queen' : 'someone special'} like you deserves more than just words...` : relationship === 'friend' ? "Warning: High levels of legend-ness detected! ⚠️" : "But you deserve a much more magical surprise..."}
+                {relationship === 'partner' ? `عشان ${isMale ? 'ملك' : isFemale ? 'ملكة' : 'شخص مميز'} زيك يستاهل أكتر من مجرد كلام...` : relationship === 'friend' ? "تحذير: تم اكتشاف مستويات عالية من الأسطورية! ⚠️" : "بس إنت تستاهل مفاجأة سحرية أكتر..."}
               </p>
               <motion.div 
                 animate={{ 

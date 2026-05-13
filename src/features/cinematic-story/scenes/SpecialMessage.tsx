@@ -28,7 +28,7 @@ export const SpecialMessage = () => {
         style={{ textShadow: 'var(--glow-effect)' }}
         variants={variants.item}
       >
-        For My {relationship === 'partner' ? (isMale ? 'Handsome King' : isFemale ? 'Beautiful Queen' : 'Everything') : relationship === 'friend' ? (isMale ? 'Legendary Brother' : isFemale ? 'Amazing Sister' : 'Bestie') : (name || 'You')},
+        {relationship === 'partner' ? (isMale ? 'إلى ملكي وحبيب قلبي' : isFemale ? 'إلى ملكتي وأجمل ما في دنيتي' : 'إلى كل حياتي') : relationship === 'friend' ? (isMale ? 'إلى الأسطورة' : isFemale ? 'إلى أروع أخت' : 'إلى أعز الناس') : (name || 'إليكِ')}،
       </motion.h2>
 
       <div className="flex flex-wrap justify-center max-w-4xl gap-x-4 gap-y-3">

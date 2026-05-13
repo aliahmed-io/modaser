@@ -1,11 +1,8 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { PHOTO_ASSETS } from "@/config/birthday";
+import { ALL_ASSETS } from "@/config/assets";
 import { useBirthdayStore } from "@/features/core/store/useBirthdayStore";
 import { useIsMobile } from "@/hooks/use-mobile";
-import photo1Default from "@/assets/photo-1.jpg";
-import photo2Default from "@/assets/photo-2.jpg";
-import photo3Default from "@/assets/photo-3.jpg";
 
 export const PhotoGallery = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -23,28 +20,12 @@ export const PhotoGallery = () => {
   const autoAdvanceDelay = animationPacing === 'fast' ? 4500 : animationPacing === 'slow' ? 8500 : 6000;
 
   const photos = useMemo(() => {
-    const base = [
-      { src: PHOTO_ASSETS.photo1 || photo1Default, fallback: photo1Default, key: "p1" },
-      { src: PHOTO_ASSETS.photo2 || photo2Default, fallback: photo2Default, key: "p2" },
-      { src: PHOTO_ASSETS.photo3 || photo3Default, fallback: photo3Default, key: "p3" },
-    ].filter(p => p.src !== null);
-
-    const captions = relationship === 'partner' ? [
-      "Every moment with you is a gift 💖",
-      "Building our beautiful future ✨",
-      "My heart's favorite place 🌹"
-    ] : relationship === 'friend' ? [
-      "Legendary times with the MVP 🚀",
-      "Making memories and bad decisions! 😂",
-      "Stay epic, stay you! 🍻"
-    ] : [
-      "Family is where life begins ✨",
-      "Cherishing every smile 💖",
-      "A journey filled with love 🌟"
-    ];
-
-    return base.map((p, i) => ({ ...p, caption: captions[i] || "Beautiful memory ✨" }));
-  }, [relationship]);
+    return ALL_ASSETS.map((asset, i) => ({
+      ...asset,
+      key: `asset-${i}`,
+      fallback: "" 
+    }));
+  }, []);
 
   // 3D Tilt Effect
   const x = useMotionValue(0);
@@ -136,14 +117,24 @@ export const PhotoGallery = () => {
               className="relative rounded-[3rem] overflow-hidden shadow-[0_60px_120px_-20px_rgba(0,0,0,0.8)] border border-white/10"
               onClick={() => setLightbox(activeIndex)}
             >
-              <img
-                src={photos[activeIndex].src}
-                alt={photos[activeIndex].caption}
-                onLoad={(e) => handleImageLoad(photos[activeIndex].key, e)}
-                onError={(e) => { (e.target as HTMLImageElement).src = photos[activeIndex].fallback; }}
-                loading="lazy"
-                className={`w-full h-full object-cover transition-transform duration-[3000ms] ${!isMobile ? "group-hover:scale-110" : ""}`}
-              />
+              {photos[activeIndex].type === 'video' ? (
+                <video
+                  src={photos[activeIndex].src}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover transition-transform duration-[3000ms]"
+                />
+              ) : (
+                <img
+                  src={photos[activeIndex].src}
+                  alt={photos[activeIndex].caption}
+                  onLoad={(e) => handleImageLoad(photos[activeIndex].key, e)}
+                  loading="lazy"
+                  className={`w-full h-full object-cover transition-transform duration-[3000ms] ${!isMobile ? "group-hover:scale-110" : ""}`}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
               
               <div className="absolute bottom-12 left-0 right-0 text-center px-12">
@@ -186,21 +177,30 @@ export const PhotoGallery = () => {
         </motion.div>
 
         {/* Cinematic Thumbnails */}
-        <div className="flex justify-center mt-20 gap-8">
+        <div className="flex justify-center mt-20 gap-4 md:gap-8 flex-wrap">
           {photos.map((photo, i) => (
             <motion.div
               key={i}
               onClick={() => setActiveIndex(i)}
               whileHover={!isMobile ? { scale: 1.15, y: -10, rotate: i % 2 === 0 ? 2 : -2 } : undefined}
               whileTap={{ scale: 0.9 }}
-              className={`relative cursor-pointer rounded-3xl overflow-hidden w-28 h-28 md:w-40 md:h-40 border-4 transition-all duration-700 ${i === activeIndex ? "border-primary scale-110 shadow-[0_20px_50px_rgba(var(--color-primary-rgb),0.4)]" : "border-transparent opacity-30 hover:opacity-100"}`}
+              className={`relative cursor-pointer rounded-2xl md:rounded-3xl overflow-hidden w-20 h-20 md:w-40 md:h-40 border-4 transition-all duration-700 ${i === activeIndex ? "border-primary scale-110 shadow-[0_20px_50px_rgba(var(--color-primary-rgb),0.4)]" : "border-transparent opacity-30 hover:opacity-100"}`}
             >
-              <img src={photo.src} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = photo.fallback; }} />
+              {photo.type === 'video' ? (
+                <video src={photo.src} className="w-full h-full object-cover" muted playsInline />
+              ) : (
+                <img src={photo.src} className="w-full h-full object-cover" />
+              )}
               {i === activeIndex && (
                 <motion.div 
                   layoutId="active-thumb-glow"
                   className="absolute inset-0 bg-primary/10 pointer-events-none"
                 />
+              )}
+              {photo.type === 'video' && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                  <span className="text-white text-2xl">▶</span>
+                </div>
               )}
             </motion.div>
           ))}
@@ -213,7 +213,7 @@ export const PhotoGallery = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/98 backdrop-blur-3xl p-8"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/98 backdrop-blur-3xl p-4 md:p-8"
             onClick={() => setLightbox(null)}
           >
             <motion.div 
@@ -223,19 +223,28 @@ export const PhotoGallery = () => {
               className="relative max-w-7xl w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={photos[lightbox].src}
-                alt={photos[lightbox].caption}
-                className="w-full max-h-[85vh] object-contain rounded-[2.5rem] shadow-[0_100px_200px_-50px_rgba(0,0,0,1)] border border-white/10"
-              />
-              <div className="text-center mt-12">
-                <p className="font-display text-4xl md:text-6xl text-white font-black italic tracking-tighter drop-shadow-2xl">
+              {photos[lightbox].type === 'video' ? (
+                <video
+                  src={photos[lightbox].src}
+                  controls
+                  autoPlay
+                  className="w-full max-h-[80vh] object-contain rounded-[1.5rem] md:rounded-[2.5rem] shadow-[0_100px_200px_-50px_rgba(0,0,0,1)] border border-white/10"
+                />
+              ) : (
+                <img
+                  src={photos[lightbox].src}
+                  alt={photos[lightbox].caption}
+                  className="w-full max-h-[80vh] object-contain rounded-[1.5rem] md:rounded-[2.5rem] shadow-[0_100px_200px_-50px_rgba(0,0,0,1)] border border-white/10"
+                />
+              )}
+              <div className="text-center mt-8 md:mt-12">
+                <p className="font-display text-2xl md:text-6xl text-white font-black italic tracking-tighter drop-shadow-2xl">
                   {photos[lightbox].caption}
                 </p>
               </div>
               <button 
                 onClick={() => setLightbox(null)}
-                className="absolute -top-12 -right-12 w-20 h-20 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-2xl border border-white/10 flex items-center justify-center text-white text-3xl transition-all shadow-2xl"
+                className="absolute -top-6 -right-6 md:-top-12 md:-right-12 w-12 h-12 md:w-20 md:h-20 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-2xl border border-white/10 flex items-center justify-center text-white text-xl md:text-3xl transition-all shadow-2xl"
               >
                 ✕
               </button>
