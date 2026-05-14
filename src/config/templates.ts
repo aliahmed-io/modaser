@@ -49,7 +49,7 @@ export interface BirthdayConfig {
  */
 export const EMOTIONAL_LETTERS = {
   partner: {
-    male: `My King, My Strength, My Forever ${name},
+    male: `My King, My Strength, My Forever $رندا,
 
 In a world that often moves too fast, you are the stillness where my heart finds peace. Today isn't just about celebrating the day you were born; it's about celebrating every heartbeat you've shared with me. You aren't just my partner; you are the architect of my happiness, the guardian of my dreams, and the soul that mirrors my own.
 
@@ -71,7 +71,7 @@ Happy birthday, my love, and I want to tell you on this day 🥹🎂
 بس النهارده… مش هسكت.
 النهارده لازم أقولك كل حاجة.
 
-أنا بحبك يا {name}…
+أنا بحبك يا رندا…
 بحبك يا رورو…
 بحبك يا رنوده…
 
@@ -136,7 +136,7 @@ Happy birthday, my love, and I want to tell you on this day 🥹🎂
   },
 
   friend: {
-    romantic: `To the Most Radiant Soul I Know, ${name},
+    romantic: `To the Most Radiant Soul I Know, $رندا,
 
 From the very first moment our paths crossed, the world seemed to shift into focus. You have this magical way of making everything feel possible, of turning the mundane into the miraculous. Your eyes hold galaxies I want to explore, and your smile is the only map I'll ever need.
 
@@ -147,7 +147,7 @@ Happy Birthday, beautiful. May this year be as breathtaking as you are.
 Thinking of Only You,
 [Your Name]`,
 
-    friendly: `To My Unbiological Sister & Best Friend, ${name},
+    friendly: `To My Unbiological Sister & Best Friend, $رندا,
 
 Happy Birthday to the one who knows all my secrets and still hasn't run away! 😂 You are the laughter in my life when things get tough and the logic I need when I'm being a mess. People like you don't just happen; you're a rare gem that I'm so lucky to have found.
 
@@ -158,7 +158,7 @@ Love you to the moon and back, Bestie! ✨
 Your Partner in Crime,
 [Your Name]`,
 
-    legend: `To The Absolute Legend, ${name},
+    legend: `To The Absolute Legend, $رندا,
 
 Happy Birthday to the man who makes life feel like an epic adventure! You've always been the one with the best stories, the loudest laughs, and the most loyal heart. People like you are the reason 'best friend' was even a term invented.
 
@@ -170,7 +170,7 @@ Cheers to You,
 [Your Name]`
   },
 
-  love: `My Heart's Only Desire, ${name},
+  love: `My Heart's Only Desire, $رندا,
 
 If I could gather every star in the sky and place them at your feet, it still wouldn't be enough to show you how much I love you. You are the 'why' behind everything I do. In the chaos of this world, you are my sanctuary, my anchor, and my ultimate destination.
 
@@ -181,7 +181,7 @@ Happy Birthday, my forever. My heart is, and will always be, yours.
 Eternally Yours,
 [Your Name]`,
 
-  emotional: `To My Most Precious ${name},
+  emotional: `To My Most Precious $رندا,
 
 There are moments when I just stop and realize how lucky I am to have you in my life. You are the kind of person who leaves a mark on everyone you meet, but the mark you've left on my heart is permanent and profound. 
 
@@ -203,7 +203,7 @@ Happy birthday, my love, and I want to tell you on this day 🥹🎂
 بس النهارده… مش هسكت.
 النهارده لازم أقولك كل حاجة.
 
-أنا بحبك يا {name}…
+أنا بحبك يا رندا…
 بحبك يا رورو…
 بحبك يا رنوده…
 
@@ -266,7 +266,7 @@ Happy birthday, my love, and I want to tell you on this day 🥹🎂
 حب حقيقي، حب مليان تفاصيل، حب مش بيتنسي ولا بيقل…
 وهفضل أحبك كده، وأكتر كمان مع كل يوم بيعدي ❤️`,
 
-  sibling: `To My Amazing Sibling, ${name},
+  sibling: `To My Amazing Sibling, $رندا,
 
 From fighting over the TV remote to having each other's backs when it really matters, we've shared a lifetime of memories. You're the one person who knows all my embarrassing childhood stories and still chooses to be seen in public with me! 😂
 
@@ -277,7 +277,7 @@ Happy Birthday. Let's make this year the best one yet.
 Love Always,
 [Your Name]`,
 
-  colleague: `To an Incredible Colleague, ${name},
+  colleague: `To an Incredible Colleague, $رندا,
 
 Working with you is a daily reminder that the people make the place. Your dedication, your brilliant ideas, and your positive energy transform even the most stressful days into something manageable—and often, genuinely fun.
 
@@ -288,7 +288,7 @@ Happy Birthday! Wishing you a year of huge success and even bigger moments of jo
 Warmly,
 [Your Name]`,
 
-  mentor: `To My Valued Mentor, ${name},
+  mentor: `To My Valued Mentor, $رندا,
 
 Some people teach by telling, but you teach by being. Your guidance, patience, and unwavering belief in my potential have shaped my journey in ways I can't fully express. You've not only shown me the path but given me the confidence to walk it.
 
@@ -299,7 +299,7 @@ Happy Birthday, and thank you for everything.
 With Deep Gratitude,
 [Your Name]`,
 
-  milestone: `To the Incredible ${name}, on Your Milestone Birthday,
+  milestone: `To the Incredible $رندا, on Your Milestone Birthday,
 
 Today isn't just another birthday; it's a celebration of a major milestone! It's a moment to pause, look back at the incredible journey you've traveled, and look forward to the unwritten chapters still waiting for your brilliance.
 

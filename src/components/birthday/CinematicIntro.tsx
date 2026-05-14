@@ -139,7 +139,7 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
       "Stay legendary! 😎"
     ];
     return [
-      `Dear ${name || 'Wonderful Human'}`,
+      `حبيبتي رندا`,
       "We all wanted to wish you a year of pure happiness...",
       "May your kindness always come back to you tenfold ✨",
       "We love you so much! 💖"
@@ -320,9 +320,9 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
                 transition={{ duration: 2, ease: "circOut" }}
                 className="text-center px-4"
               >
-                <p className="text-xl md:text-4xl text-muted-foreground mb-4 font-display italic">This is for you...</p>
+                <p className="text-xl md:text-4xl text-muted-foreground mb-4 font-display italic">المفاجأة دي عشانك...</p>
                 <h2 className="font-display text-5xl sm:text-7xl md:text-9xl lg:text-[12rem] font-black animate-glow-pulse break-words leading-tight" style={{ color: primaryColor }}>
-                  <span className="animate-in zoom-in duration-1000">{name || 'You'}</span>
+                  <span className="animate-in zoom-in duration-1000">رندا</span>
                 </h2>
               </motion.div>
             )}
@@ -332,11 +332,11 @@ export const CinematicIntro = ({ onComplete }: CinematicIntroProps) => {
                 <div className="flex justify-center mb-6"><HeartProgression stage={4} /></div>
                 <h1 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-black mb-4 break-words leading-tight">
                   <span className="bg-gradient-to-r from-[var(--color-primary)] via-[hsl(45,100%,65%)] to-[hsl(200,80%,70%)] bg-clip-text text-transparent animate-gradient-shift">
-                    Happy Birthday
+                    كل سنة وأنتي طيبة
                   </span>
                 </h1>
                 <h2 className="font-display text-5xl sm:text-7xl md:text-9xl lg:text-[12rem] font-black text-foreground animate-glow-pulse mt-4 break-words">
-                  {name}!
+                  يا رندا!
                 </h2>
               </div>
             )}
