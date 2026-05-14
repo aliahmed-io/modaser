@@ -5,9 +5,9 @@ export const useStoryVariants = () => {
 
   // Dynamic spring physics based on relationship
   const springConfig = 
-    pacing === 'fast' ? { type: "spring", stiffness: 400, damping: 15 } : // Bouncy, fun
-    pacing === 'slow' ? { type: "spring", stiffness: 50, damping: 20 } :  // Smooth, emotional
-    { type: "spring", stiffness: 100, damping: 20 };                      // Standard
+    pacing === 'fast' ? { type: "spring" as const, stiffness: 400, damping: 15 } : // Bouncy, fun
+    pacing === 'slow' ? { type: "spring" as const, stiffness: 50, damping: 20 } :  // Smooth, emotional
+    { type: "spring" as const, stiffness: 100, damping: 20 };                      // Standard
 
   return {
     container: {
