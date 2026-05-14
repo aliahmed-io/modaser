@@ -80,7 +80,7 @@ export const LetterBasket = () => {
                 </div>
               ) : (
                 <div className="absolute bottom-4 left-0 right-0 text-center z-10">
-                  <span className="text-black/40 font-display text-sm font-bold uppercase tracking-widest">Open Me</span>
+                  <span className="text-black/40 font-display text-sm font-bold uppercase tracking-widest">افتحيني</span>
                 </div>
               )}
             </motion.div>

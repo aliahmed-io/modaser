@@ -60,16 +60,16 @@ Happy Birthday, my love. You are my greatest adventure and my home.
 Forever Yours,
 [Your Name]`,
 
-    female: `My Queen, My Muse, My Beautiful ${name},
+    female: `ملكتي، وملهمتي، وأجمل {name} في الدنيا،
 
-They say perfection doesn't exist, but every time I look at you, I see the flaw in that theory. You are the grace in my world, the light in my life, and the woman who makes my heart beat with purpose. Your strength inspires me, your intelligence humbles me, and your love... your love is the air I breathe.
+بيقولوا إن مفيش حد كامل، بس كل مرة ببص في عينيكي بتأكد إنك أجمل استثناء. أنتي النور في حياتي، والست اللي بتخلي لقلبي معنى وهدف. قوتك بتلهمني، وذكاءك بيخليني فخور بيكي، وحبك... حبك هو النفس اللي بيخليني أعيش.
 
-On this special day, I want you to know that you are more than enough. You are extraordinary. Every laugh we share is a treasure, every silence a comfort. I vow to cherish you, to protect your beautiful heart, and to spend the rest of my days showing you how much you truly mean to me.
+في اليوم المميز ده، عايزك تعرفي إنك أكتر من كافية.. أنتي استثنائية. كل ضحكة بنضحكها مع بعض هي كنز، وكل لحظة سكوت هي راحة لقلبي. بوعدك إني أحافظ عليكي، وأحمي قلبك الجميل، وأقضي باقي عمري وأنا بورييكِ قد إيه أنتي غالية عندي.
 
-Happy Birthday, my soulmate. May your light shine brighter than the stars tonight.
+كل سنة وأنتي طيبة يا نصي التاني. يا رب نورك يفضل منور حياتي دايماً.
 
-With All My Soul,
-[Your Name]`
+بكل مشاعري،
+{senderName}`
   },
 
   friend: {
@@ -129,16 +129,16 @@ Happy Birthday. Take a moment to see yourself through my eyes—you are absolute
 With Deepest Love,
 [Your Name]`,
 
-  family: `To Our Dear ${name},
+  family: `إلى أغلى {name} عندنا،
 
-Family is more than just blood; it's the anchor in the storm and the laughter in the quiet. Having you as a part of our family is one of our greatest blessings. You bring a unique light, a steady strength, and a heart full of kindness that binds us all together.
+العيلة مش بس مجرد دم، دي السند في وقت الشدة والضحكة اللي بتملى البيت. وجودك وسطنا هو أكبر نعمة في حياتنا. أنتي بتضيفي نور خاص لكل يوم، وبقلبك الطيب وحنيتك بتجمعينا كلنا.
 
-We've watched you grow, overcome, and succeed, and our pride in you knows no bounds. Thank you for being the person you are—the one we can always count on, the one who makes our gatherings brighter, and the one we love beyond measure.
+شفناكي وإنتي بتكبري، وبتعدي الصعوبات، وبتوصلي لنجاحاتك، وفخرنا بيكي ملوش حدود. شكراً إنك أنتي.. الشخص اللي دايماً بنعتمد عليه، واللي بيخلي كل لمتنا أحلى، واللي بنحبه أكتر من أي حاجة في الدنيا.
 
-Happy Birthday. May your day be filled with the same warmth and joy you bring to all of us every day.
+كل سنة وأنتي طيبة. يا رب يومك يكون مليان بنفس السعادة والحب اللي بتديهولنا كل يوم.
 
-With All Our Love,
-Your Family`,
+بكل الحب،
+عيلتك`,
 
   sibling: `To My Amazing Sibling, ${name},
 

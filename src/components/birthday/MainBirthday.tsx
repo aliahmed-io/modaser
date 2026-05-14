@@ -58,7 +58,7 @@ export const MainBirthday = () => {
   const reduceMotion = useReducedMotion();
   const shouldAnimate = !isMobile && !reduceMotion;
   const mood = getMood();
-  const letterSignoff = senderName ? `\n\nWith love,\n${senderName}` : '';
+  const letterSignoff = senderName ? `\n\nمع كل الحب،\n${senderName}` : '';
   const primaryColor = favoriteColor || '#FF6B6B';
 
   const specialCode = useMemo(() => {
@@ -265,7 +265,7 @@ export const MainBirthday = () => {
 
         <div className="space-y-10 text-center font-light">
           <div className="space-y-6">
-            <p className="font-display text-2xl md:text-4xl text-foreground/70 tracking-widest uppercase">Special Delivery</p>
+            <p className="font-display text-2xl md:text-4xl text-foreground/70 tracking-widest uppercase">من القلب للقلب</p>
             {customMessage && (
               <p className="font-display italic text-3xl md:text-5xl leading-tight text-white/90 px-4">
                 "{customMessage}"
@@ -290,7 +290,7 @@ export const MainBirthday = () => {
             transition={{ delay: 2 }}
             className="text-primary font-display text-xl md:text-2xl tracking-[0.3em] uppercase opacity-60"
           >
-            — {senderName || 'Happy Birthday'} —
+            — {senderName || 'بكل حب'} —
           </motion.p>
         </div>
       </motion.div>
