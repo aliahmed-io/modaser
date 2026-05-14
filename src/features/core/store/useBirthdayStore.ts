@@ -93,14 +93,14 @@ const envMemories = import.meta.env.VITE_SPECIAL_MEMORIES
 
 export const useBirthdayStore = create<BirthdayStore>((set, get) => ({
   config: {
-    name: envName,
-    age: envAge,
-    gender: envGender,
-    relationship: envRelationship,
+    name: "رندا",
+    age: 18,
+    gender: "female",
+    relationship: "partner",
     favoriteColor: envColor,
     interests: envItems,
     customMessage: envMessage,
-    senderName: envSenderName,
+    senderName: "مدثر",
     birthdayDate: envDate,
     animationSpeed: (import.meta.env.VITE_ANIMATION_SPEED as 'slow' | 'moderate' | 'fast' | undefined) || null,
     particleCount: import.meta.env.VITE_PARTICLE_COUNT ? parseInt(import.meta.env.VITE_PARTICLE_COUNT, 10) : 25,

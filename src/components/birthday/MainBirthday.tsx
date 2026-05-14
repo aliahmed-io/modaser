@@ -277,9 +277,11 @@ export const MainBirthday = () => {
             <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-1000 blur"></div>
             <div className="relative p-6 md:p-12 bg-black/40 rounded-[2rem] border border-white/5 max-h-[45vh] overflow-y-auto scrollbar-hide shadow-inner backdrop-blur-xl">
               <div dir="rtl" className="text-right text-lg md:text-2xl lg:text-3xl leading-[1.8] whitespace-pre-line font-light text-white/90">
-                {config.letterOverride
-                  ? `${config.letterOverride}${letterSignoff}`
-                  : `${getHighlySpecificLetter(name, relationship, gender, config.interests)}${letterSignoff}`}
+                {(() => {
+                  const rawLetter = config.letterOverride || getHighlySpecificLetter(name, relationship, gender, config.interests);
+                  const processedLetter = rawLetter.replace(/{name}/g, name).replace(/{senderName}/g, senderName || '');
+                  return processedLetter + letterSignoff;
+                })()}
               </div>
             </div>
           </div>
