@@ -21,6 +21,7 @@ import { FinalSurprise } from "./FinalSurprise";
 import { VideoGallery } from "./VideoGallery";
 import { LetterBasket } from "./LetterBasket";
 import { PromisesTree } from "./PromisesTree";
+import { CinematicBackground } from "./CinematicBackground";
 import { useBirthdayStore } from "@/features/core/store/useBirthdayStore";
 import { getHighlySpecificLetter } from "@/features/core/store/SuperPersonalizedLogic";
 import { Car, Music, Code, Gamepad2, Palmtree, Camera, Pizza, Dumbbell, Rocket, Heart } from "lucide-react";
@@ -193,8 +194,8 @@ export const MainBirthday = () => {
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0, filter: "blur(10px)" },
-    visible: { y: 0, opacity: 1, filter: "blur(0px)", transition: { duration: 0.8, ease: "easeOut" } },
+    hidden: { y: 40, opacity: 0, filter: "blur(15px)" },
+    visible: { y: 0, opacity: 1, filter: "blur(0px)", transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } as any },
   };
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -225,18 +226,18 @@ export const MainBirthday = () => {
           🎂
         </motion.div>
         {cakeClicks > 0 && cakeClicks < 7 && (
-          <p className="text-primary font-bold animate-pulse">اضغطي 🎂 {7 - cakeClicks} مرات كمان!</p>
+          <p className="text-primary font-bold animate-pulse">دوسي على التورتة 🎂 {7 - cakeClicks} مرات كمان!</p>
         )}
       </motion.div>
 
-      <motion.h1 variants={itemVariants} className="font-display text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-black mb-4 break-words leading-tight px-2">
-        <span className="bg-gradient-to-r from-[var(--color-primary)] via-[hsl(45,100%,75%)] to-[hsl(200,80%,70%)] bg-clip-text text-transparent animate-gradient-shift drop-shadow-[0_4px_30px_rgba(255,255,255,0.3)]">
-          {age ? `عيد ميلاد سعيد الـ ${age}` : "عيد ميلاد سعيد"}
+      <motion.h1 variants={itemVariants} className="font-display text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black mb-4 break-words leading-tight px-2">
+        <span className="bg-gradient-to-r from-[var(--color-primary)] via-white to-[var(--color-primary)] bg-clip-text text-transparent animate-gradient-shift">
+          كل سنة وأنتي طيبة
         </span>
       </motion.h1>
 
-      <motion.h2 variants={itemVariants} className="font-display text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground animate-glow-pulse mb-10 break-words leading-none px-2">
-        <span className="animate-in fade-in duration-1000 delay-1000">يا {name}!</span>
+      <motion.h2 variants={itemVariants} className="font-display text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black text-white mb-10 break-words leading-none px-2">
+        <span className="animate-in fade-in duration-1000 delay-1000">يا {name} ❤️</span>
       </motion.h2>
     </motion.section>
   );
@@ -244,40 +245,53 @@ export const MainBirthday = () => {
   const messageSection = (
     <section key="message" className="relative z-20 flex flex-col items-center justify-center h-screen px-4">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-4xl w-full p-8 md:p-16 backdrop-blur-md md:backdrop-blur-3xl border relative overflow-hidden"
+        initial={{ opacity: 0, y: 50, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -50, scale: 0.98 }}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-4xl w-full p-8 md:p-20 backdrop-blur-3xl border border-white/5 relative overflow-hidden"
         style={{
-          background: `linear-gradient(165deg, rgba(30,30,30,0.9), rgba(10,10,10,0.98))`,
-          borderColor: `${primaryColor}40`,
-          boxShadow: `0 30px 100px -30px ${primaryColor}30`,
-          borderRadius: 'var(--card-radius, 2rem)',
+          background: `rgba(15,15,15,0.7)`,
+          boxShadow: `0 50px 150px -50px ${primaryColor}40`,
+          borderRadius: '3rem',
         }}
       >
-        <div className="absolute top-0 right-0 p-8 opacity-10 text-9xl">✨</div>
-        <div className="text-5xl text-center mb-6 animate-bounce">💌</div>
-        <h3 className="font-display text-3xl md:text-5xl font-black text-center mb-8 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-          {relationship === 'partner' ? "من أعماق قلبي" : relationship === 'friend' ? "رسالة أسطورية" : "رسالة خاصة"}
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 blur-[80px] rounded-full" />
+        <div className="text-6xl text-center mb-10 opacity-80">💌</div>
+        
+        <h3 className="font-display text-4xl md:text-7xl font-black text-center mb-12 tracking-tighter leading-none" style={{ color: primaryColor }}>
+          {relationship === 'partner' ? "إلى رفيقة عمري" : relationship === 'friend' ? "رسالة أسطورية" : "رسالة خاصة"}
         </h3>
-        <div className="space-y-6 text-center text-xl md:text-2xl text-foreground/90 leading-relaxed">
-          <p className="font-display font-black text-2xl md:text-4xl" style={{ color: primaryColor }}>عزيزتي {name}،</p>
-          {customMessage ? (
-            <p className="italic font-light text-2xl md:text-4xl leading-tight">"{customMessage}"</p>
-          ) : (
-            <div className="space-y-4">
-              <p>{mood === 'romantic' ? "حياتي منورة بوجودك فيها، النهاردة بنحتفل بأجمل وأحن روح عرفتها." : mood === 'energetic' ? "أنت مش بتكبر، أنت بتحلو! الأساطير بس اللي بيستحقوا يوم عظيم زي ده!" : "يوم كله فرح وامتنان عشان بنحتفل بيك. أنت بتنور حياتنا كلها."}</p>
-              <p className="text-lg md:text-xl text-foreground/60">يا رب السنة دي تكون أجمل وأحلى سنة في حياتك كلها. ✨</p>
-            </div>
-          )}
-          <div className="mt-8 p-6 bg-black/40 rounded-2xl border border-white/5 transition-transform duration-500 hover:scale-[1.01] max-h-[40vh] overflow-y-auto scrollbar-hide shadow-inner">
-            <div dir="rtl" className="text-right text-base md:text-lg lg:text-xl leading-relaxed whitespace-pre-line font-light text-foreground/90">
-              {config.letterOverride
-                ? `${config.letterOverride}${letterSignoff}`
-                : `${getHighlySpecificLetter(name, relationship, gender, config.interests)}${letterSignoff}`}
+
+        <div className="space-y-10 text-center font-light">
+          <div className="space-y-6">
+            <p className="font-display text-2xl md:text-4xl text-foreground/70 tracking-widest uppercase">Special Delivery</p>
+            {customMessage && (
+              <p className="font-display italic text-3xl md:text-5xl leading-tight text-white/90 px-4">
+                "{customMessage}"
+              </p>
+            )}
+          </div>
+
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-1000 blur"></div>
+            <div className="relative p-6 md:p-12 bg-black/40 rounded-[2rem] border border-white/5 max-h-[45vh] overflow-y-auto scrollbar-hide shadow-inner backdrop-blur-xl">
+              <div dir="rtl" className="text-right text-lg md:text-2xl lg:text-3xl leading-[1.8] whitespace-pre-line font-light text-white/90">
+                {config.letterOverride
+                  ? `${config.letterOverride}${letterSignoff}`
+                  : `${getHighlySpecificLetter(name, relationship, gender, config.interests)}${letterSignoff}`}
+              </div>
             </div>
           </div>
+          
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2 }}
+            className="text-primary font-display text-xl md:text-2xl tracking-[0.3em] uppercase opacity-60"
+          >
+            — {senderName || 'Happy Birthday'} —
+          </motion.p>
         </div>
       </motion.div>
     </section>
@@ -292,7 +306,7 @@ export const MainBirthday = () => {
         className="text-center w-full max-w-4xl"
       >
         <h3 className="font-display text-4xl sm:text-6xl md:text-7xl font-black mb-6 drop-shadow-xl" style={{ color: primaryColor }}>
-          وقت تقطيع التورتة! 🎂
+          يلا نقطع التورتة! 🎂
         </h3>
         <p className="text-xl sm:text-2xl md:text-3xl text-foreground/80 mb-8 max-w-2xl mx-auto">
           جاهزة لأحلى لحظة؟ يلا نعمل شوية سحر! ✨
@@ -319,12 +333,14 @@ export const MainBirthday = () => {
   return (
     <div
       onMouseMove={shouldAnimate ? handleMouseMove : undefined}
-      className={`fixed inset-0 overflow-hidden bg-background ${visible ? "opacity-100" : "opacity-0"} ${megaSurprise ? "animate-screen-shake" : ""}`}
+      className={`fixed inset-0 overflow-hidden bg-[#050505] text-white ${visible ? "opacity-100" : "opacity-0"} ${megaSurprise ? "animate-screen-shake" : ""}`}
     >
+      <CinematicBackground />
+
       {/* Mega Surprise Overlay */}
       {megaSurprise && (
-        <div className="fixed inset-0 z-[100] bg-white/20 backdrop-blur-sm pointer-events-none animate-flash flex items-center justify-center">
-          <h1 className="text-6xl md:text-9xl font-black text-white drop-shadow-2xl animate-bounce">مفاجأة كبرى! 🎊</h1>
+        <div className="fixed inset-0 z-[100] bg-white/20 backdrop-blur-md pointer-events-none animate-flash flex items-center justify-center">
+          <h1 className="font-display text-6xl md:text-9xl font-black text-white drop-shadow-2xl animate-bounce">مفاجأة جامدة! 🎊</h1>
         </div>
       )}
 
@@ -346,48 +362,52 @@ export const MainBirthday = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="absolute inset-0 overflow-y-auto overflow-x-hidden pb-24"
+          initial={{ opacity: 0, filter: "blur(20px)", scale: 1.1 }}
+          animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+          exit={{ opacity: 0, filter: "blur(20px)", scale: 0.95 }}
+          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0 overflow-y-auto overflow-x-hidden scrollbar-hide pb-24"
         >
           {slides[currentSlide]}
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-[60] p-4 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-between pointer-events-none">
-        <div className="flex gap-2 pointer-events-auto">
-          {currentSlide > 0 && (
-            <button
-              onClick={() => setCurrentSlide(s => s - 1)}
-              className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold transition-all border border-white/20"
-            >
-              السابق
-            </button>
-          )}
-        </div>
+      {/* Award-Winning Navigation UI */}
+      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[60] w-full max-w-xl px-6 flex items-center justify-between gap-8 pointer-events-none">
+        <motion.button
+          whileHover={{ scale: 1.1, x: -5 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setCurrentSlide(s => Math.max(0, s - 1))}
+          className={`pointer-events-auto h-16 w-16 rounded-full flex items-center justify-center backdrop-blur-xl border border-white/10 text-white/40 hover:text-white transition-all ${currentSlide === 0 ? 'opacity-0 scale-50' : 'opacity-100 scale-100'}`}
+          style={{ background: 'rgba(20,20,20,0.4)' }}
+        >
+          <span className="text-xl">←</span>
+          <span className="sr-only">رجوع</span>
+        </motion.button>
         
-        <div className="flex gap-1">
+        <div className="flex-1 pointer-events-auto flex items-center justify-center gap-2 h-16 px-8 rounded-full backdrop-blur-xl border border-white/10" style={{ background: 'rgba(20,20,20,0.4)' }}>
           {slides.map((_, i) => (
-            <div 
+            <motion.div 
               key={i} 
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-primary w-6' : 'bg-white/30'}`}
+              animate={{ 
+                width: i === currentSlide ? 32 : 8,
+                backgroundColor: i === currentSlide ? primaryColor : 'rgba(255,255,255,0.2)'
+              }}
+              className="h-2 rounded-full transition-all duration-700 ease-[0.16,1,0.3,1]"
             />
           ))}
         </div>
 
-        <div className="flex gap-2 pointer-events-auto">
-          {currentSlide < slides.length - 1 && (
-            <button
-              onClick={() => setCurrentSlide(s => s + 1)}
-              className="px-8 py-3 rounded-full bg-primary hover:bg-primary/80 text-white font-bold transition-all shadow-lg shadow-primary/30 animate-pulse"
-            >
-              التالي
-            </button>
-          )}
-        </div>
+        <motion.button
+          whileHover={{ scale: 1.1, x: 5 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setCurrentSlide(s => Math.min(slides.length - 1, s + 1))}
+          className={`pointer-events-auto h-16 w-16 rounded-full flex items-center justify-center backdrop-blur-xl border border-white/10 text-white/40 hover:text-white transition-all ${currentSlide === slides.length - 1 ? 'opacity-0 scale-50' : 'opacity-100 scale-100'}`}
+          style={{ background: 'rgba(20,20,20,0.4)' }}
+        >
+          <span className="text-xl">→</span>
+          <span className="sr-only">يلا</span>
+        </motion.button>
       </div>
     </div>
   );
