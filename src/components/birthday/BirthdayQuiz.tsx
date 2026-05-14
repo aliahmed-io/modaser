@@ -25,8 +25,8 @@ export const BirthdayQuiz = () => {
     const base: Question[] = [
       {
         q: `اسم دلعي ايه؟`,
-        options: ["حمودي", "مودي", "حبيبي", "ميدو"],
-        correct: 0,
+        options: ["مودي", "حمودي", "حبيبي", "ميدو"],
+        correct: 1,
         reason: `طبعاً حمودي! أحلى اسم من أحلى بنت.`
       },
       {
@@ -78,11 +78,11 @@ export const BirthdayQuiz = () => {
   return (
     <section className="relative z-20 px-4 py-32 flex flex-col items-center">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        className="max-w-2xl w-full backdrop-blur-3xl border border-white/10 rounded-[3rem] p-8 md:p-12 text-center overflow-hidden relative"
-        style={{ background: 'rgba(20,20,20,0.8)', boxShadow: `0 30px 100px -30px ${config.favoriteColor || '#ff0080'}40` }}
+        className="max-w-7xl w-full backdrop-blur-3xl border-2 border-white/10 rounded-[2.5rem] md:rounded-[4rem] p-4 md:p-20 text-center overflow-hidden relative shadow-[0_0_150px_-30px_rgba(var(--color-primary-rgb),0.3)] flex flex-col justify-center items-center"
+        style={{ background: 'rgba(10,10,10,0.95)', boxShadow: `0 50px 200px -50px ${config.favoriteColor || '#ff0080'}40` }}
       >
         <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/20 blur-[80px] rounded-full" />
         
@@ -101,21 +101,21 @@ export const BirthdayQuiz = () => {
                 ))}
               </div>
               
-              <h3 className="font-display text-2xl md:text-4xl font-black leading-tight">
+              <h3 className="font-display text-2xl md:text-7xl lg:text-8xl font-black leading-tight mb-6 md:mb-12 tracking-tighter">
                 {questions[currentIdx].q}
               </h3>
 
-              <div className="grid gap-4">
+              <div className="grid grid-cols-2 gap-3 md:gap-10 w-full max-w-5xl mx-auto">
                 {questions[currentIdx].options.map((opt, i) => (
                   <motion.button
                     key={i}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.05, y: -8 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => handleSelect(i)}
-                    className={`w-full p-6 rounded-2xl text-lg md:text-xl font-medium transition-all duration-300 border ${
+                    className={`w-full min-h-[80px] md:min-h-[160px] flex items-center justify-center p-3 md:p-10 rounded-2xl md:rounded-[2rem] text-lg md:text-4xl lg:text-5xl font-black transition-all duration-500 border-2 shadow-2xl ${
                       selected === i 
-                        ? i === questions[currentIdx].correct ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-red-500/20 border-red-500 text-red-400'
-                        : selected !== null && i === questions[currentIdx].correct ? 'bg-green-500/20 border-green-500 text-green-400' : 'bg-white/5 border-white/10 hover:bg-white/10'
+                        ? i === questions[currentIdx].correct ? 'bg-green-500/30 border-green-500 text-green-400' : 'bg-red-500/30 border-red-500 text-red-400'
+                        : selected !== null && i === questions[currentIdx].correct ? 'bg-green-500/30 border-green-500 text-green-400' : 'bg-white/5 border-white/10 hover:bg-white/10'
                     }`}
                   >
                     {opt}
@@ -138,25 +138,27 @@ export const BirthdayQuiz = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="space-y-8 py-8"
+            className="space-y-10 py-10"
           >
-            <div className="flex justify-center mb-6">
+            <div className="flex justify-center">
               <div className="relative">
-                <Trophy size={100} className="text-yellow-400 drop-shadow-[0_0_30px_rgba(250,204,21,0.5)]" />
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }} className="absolute -inset-4 border-2 border-dashed border-yellow-400/30 rounded-full" />
+                <Trophy size={120} className="text-yellow-400 drop-shadow-[0_0_50px_rgba(250,204,21,0.6)]" />
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute -inset-6 border-4 border-dashed border-yellow-400/20 rounded-full" />
               </div>
             </div>
             
-            <h2 className="font-display text-4xl md:text-6xl font-black">نتيجة أسطورية!</h2>
-            <p className="text-2xl md:text-3xl text-foreground/80">
-              إنتي جبتي <span className="text-primary font-black">{score}/{questions.length}</span> في اختبار {config.name}!
-            </p>
+            <div className="space-y-4">
+              <h2 className="font-display text-5xl md:text-7xl font-black">نتيجة أسطورية!</h2>
+              <p className="text-2xl md:text-4xl text-foreground/80 font-light">
+                إنتي جبتي <span className="text-primary font-black">{score}/{questions.length}</span> في اختبار {config.name}!
+              </p>
+            </div>
             
-            <div className="flex justify-center gap-4 text-primary">
-              <Star className="animate-pulse" />
-              <Heart className="animate-bounce" />
-              <Flame className="animate-pulse" />
-              <Sparkles className="animate-bounce" />
+            <div className="flex justify-center gap-8 text-primary">
+              <Star className="animate-pulse" size={32} />
+              <Heart className="animate-bounce" size={32} />
+              <Flame className="animate-pulse" size={32} />
+              <Sparkles className="animate-bounce" size={32} />
             </div>
 
             <motion.button

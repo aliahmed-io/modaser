@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSoundManager } from "./SoundManager";
-import { HeartProgression } from "./HeartProgression";
 
 interface SplashScreenProps {
   onStart: () => void;
@@ -18,41 +17,41 @@ export const SplashScreen = ({ onStart }: SplashScreenProps) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer transition-all duration-800 ${tapped ? "opacity-0 scale-110" : "opacity-100 scale-100"}`}
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center cursor-pointer transition-all duration-1000 ${tapped ? "opacity-0 scale-110 blur-md" : "opacity-100 scale-100"}`}
       style={{
-        background: "linear-gradient(135deg, hsl(280, 60%, 8%) 0%, hsl(300, 40%, 12%) 50%, hsl(330, 50%, 10%) 100%)",
+        background: "linear-gradient(135deg, #1a0508 0%, #000000 100%)",
       }}
       onClick={handleTap}
     >
-      {/* Heart stage 1 */}
-      <div className="mb-6 animate-float-balloon">
-        <HeartProgression stage={1} />
+      <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
+
+      <div className="z-10 flex flex-col items-center">
+        <h2 className="font-display text-4xl md:text-6xl text-white/90 drop-shadow-2xl mb-6 text-center px-4 leading-relaxed tracking-wider font-light">
+          هناك شيء خاص بانتظارك...
+        </h2>
+        
+        <div className="w-16 h-[1px] bg-white/20 mb-10"></div>
+
+        <div className="animate-pulse-slow z-10 border border-white/10 px-10 py-4 rounded-full bg-black/40 backdrop-blur-md hover:bg-white/5 transition-colors">
+          <p className="text-white/60 text-sm md:text-base tracking-[0.2em] font-light">
+            اضغطي للدخول
+          </p>
+        </div>
       </div>
 
-      <div className="text-7xl md:text-8xl animate-cake-glow mb-6">🎂</div>
-      <h2 className="font-display text-2xl md:text-4xl text-foreground animate-glow-pulse mb-10 text-center">
-        في مفاجأة خاصة مستنياكي...
-      </h2>
-      <div className="animate-pulse">
-        <p className="text-muted-foreground text-lg md:text-xl tracking-widest uppercase">
-          ✨ اضغطي في أي مكان للبدء ✨
-        </p>
-      </div>
-
-      {/* Sparkle particles */}
+      {/* Elegant minimalist particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 30 }).map((_, i) => (
+        {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
-            className="absolute rounded-full"
+            className="absolute rounded-full bg-white/20"
             style={{
-              width: 2 + Math.random() * 4,
-              height: 2 + Math.random() * 4,
+              width: 1 + Math.random() * 2,
+              height: 1 + Math.random() * 2,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              backgroundColor: `hsl(${[330, 270, 45, 200][i % 4]}, 80%, 60%)`,
-              opacity: 0.3 + Math.random() * 0.4,
-              animation: `sparkle ${2 + Math.random() * 3}s ease-in-out ${Math.random() * 2}s infinite`,
+              boxShadow: "0 0 10px rgba(255,255,255,0.2)",
+              animation: `float-particle ${6 + Math.random() * 6}s ease-in-out ${Math.random() * 2}s infinite alternate`,
             }}
           />
         ))}

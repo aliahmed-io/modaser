@@ -12,25 +12,31 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useConfetti } from "./Confetti";
-import { Balloons } from "./Balloons";
-import { Sparkles } from "./Sparkles";
 import { PhotoGallery } from "./PhotoGallery";
 import { HeartProgression } from "./HeartProgression";
-import { TypeWriter } from "./TypeWriter";
 import { useSoundManager } from "./SoundManager";
 import { CakeCutting } from "./CakeCutting";
-import { HeartTree } from "./HeartTree";
-import { FireflyEffect } from "./FireflyEffect";
-import { FloatingOrbs } from "./FloatingOrbs";
-import { ShootingStars } from "./ShootingStars";
 import { BirthdayQuiz } from "./BirthdayQuiz";
 import { FinalSurprise } from "./FinalSurprise";
-import { GlitchEffect } from "./GlitchEffect";
 import { VideoGallery } from "./VideoGallery";
+import { LetterBasket } from "./LetterBasket";
+import { PromisesTree } from "./PromisesTree";
 import { useBirthdayStore } from "@/features/core/store/useBirthdayStore";
-import { getHighlySpecificLetter, getBigWishes } from "@/features/core/store/SuperPersonalizedLogic";
-import { Car, Music, Code, Gamepad2, Palmtree, Camera, Pizza, Dumbbell, Rocket, Heart, Trophy, Star } from "lucide-react";
+import { getHighlySpecificLetter } from "@/features/core/store/SuperPersonalizedLogic";
+import { Car, Music, Code, Gamepad2, Palmtree, Camera, Pizza, Dumbbell, Rocket, Heart } from "lucide-react";
+
+const interestIcons: Record<string, React.ElementType> = {
+  car: Car,
+  music: Music,
+  coding: Code,
+  gaming: Gamepad2,
+  nature: Palmtree,
+  travel: Camera,
+  food: Pizza,
+  sport: Dumbbell,
+  space: Rocket
+};
+
 
 export const MainBirthday = () => {
   const [visible, setVisible] = useState(false);
@@ -40,10 +46,8 @@ export const MainBirthday = () => {
   const [emojis, setEmojis] = useState<{ id: number; emoji: string; x: number }[]>([]);
   const [cakeClicks, setCakeClicks] = useState(0);
   const [megaSurprise, setMegaSurprise] = useState(false);
-  const [giftStage, setGiftStage] = useState<'closed' | 'party' | 'open'>('closed');
   const giftTimerRef = useRef<number | null>(null);
   
-  const { fireConfetti, fireCannon, fireStars } = useConfetti();
   const { playReveal, playPop, playBoom, playWhoosh, setBgVolume } = useSoundManager();
 
   // Dynamic Store
@@ -55,7 +59,6 @@ export const MainBirthday = () => {
   const mood = getMood();
   const letterSignoff = senderName ? `\n\nWith love,\n${senderName}` : '';
   const primaryColor = favoriteColor || '#FF6B6B';
-  const bigWishes = useMemo(() => getBigWishes(name, relationship, gender, config.interests || []), [name, relationship, gender, config.interests]);
 
   const specialCode = useMemo(() => {
     const template = relationship === 'partner' ? 'LOVE' : relationship === 'friend' ? 'LEGEND' : 'HOME';
@@ -94,19 +97,6 @@ export const MainBirthday = () => {
     mouseY.set(moveY);
   };
 
-  const openGift = () => {
-    if (giftStage !== 'closed') return;
-    setGiftStage('party');
-    playBoom();
-    fireConfetti();
-    fireStars();
-    if (giftTimerRef.current) window.clearTimeout(giftTimerRef.current);
-    giftTimerRef.current = window.setTimeout(() => {
-      setGiftStage('open');
-      giftTimerRef.current = null;
-    }, 2000);
-  };
-
   useEffect(() => {
     return () => {
       if (giftTimerRef.current) window.clearTimeout(giftTimerRef.current);
@@ -119,8 +109,8 @@ export const MainBirthday = () => {
     setTimeout(() => { setHeroRevealed(true); playBoom(); }, 600);
     setTimeout(() => { setShowName(true); playReveal(); }, 1200);
     setTimeout(() => setShowEmojis(true), 1800);
-    setTimeout(() => { fireCannon(); playBoom(); }, 2000);
-  }, [playReveal, playBoom, setBgVolume, fireCannon]);
+    setTimeout(() => { playBoom(); }, 2000);
+  }, [playReveal, playBoom, setBgVolume]);
 
   const addEmoji = () => {
     if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(50);
@@ -183,26 +173,13 @@ export const MainBirthday = () => {
       setMegaSurprise(true);
       playBoom();
       playReveal();
-      fireCannon();
-      fireStars();
-      fireConfetti({ particleCount: isMobile ? 120 : 500, spread: isMobile ? 140 : 200 });
       if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 300]);
       setTimeout(() => setMegaSurprise(false), 3000);
       setCakeClicks(0);
     }
   };
 
-  const interestIcons: Record<string, any> = {
-    car: Car,
-    music: Music,
-    coding: Code,
-    gaming: Gamepad2,
-    nature: Palmtree,
-    travel: Camera,
-    food: Pizza,
-    sport: Dumbbell,
-    space: Rocket
-  };
+
 
   const activeInterests = useMemo(() => {
     return (config.interests || []).map(i => i.toLowerCase().trim()).filter(i => interestIcons[i]);
@@ -220,19 +197,130 @@ export const MainBirthday = () => {
     visible: { y: 0, opacity: 1, filter: "blur(0px)", transition: { duration: 0.8, ease: "easeOut" } },
   };
 
-  const heroMotionStyle = shouldAnimate ? { x: springX, y: springY } : { x: 0, y: 0 };
-  const sparkleCount = isMobile ? 8 : 15;
-  const balloonCount = isMobile ? 7 : 15;
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroSection = (
+    <motion.section 
+      key="hero"
+      variants={containerVariants}
+      initial="hidden"
+      animate={visible ? "visible" : "hidden"}
+      className="relative h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden"
+    >
+      <motion.div 
+        style={{ x: springX, y: springY }}
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
+      >
+        <div className="w-[150%] h-[150%] bg-[radial-gradient(circle,var(--color-primary)_0%,transparent_70%)] opacity-[0.05]" />
+      </motion.div>
+
+      <motion.div variants={itemVariants} className="mb-6 relative z-10">
+        <div className="flex justify-center mb-8"><HeartProgression stage={4} /></div>
+        <motion.div 
+          whileHover={shouldAnimate ? { scale: 1.2, rotate: relationship === 'friend' ? [0, -10, 10, 0] : [0, -5, 5, 0] } : undefined}
+          whileTap={{ scale: 0.9 }}
+          className={`text-8xl md:text-[10rem] mb-6 cursor-pointer ${isMobile ? 'drop-shadow-lg' : 'drop-shadow-[0_0_50px_var(--color-primary)]'}`} 
+          onClick={handleCakeClick}
+        >
+          🎂
+        </motion.div>
+        {cakeClicks > 0 && cakeClicks < 7 && (
+          <p className="text-primary font-bold animate-pulse">اضغطي 🎂 {7 - cakeClicks} مرات كمان!</p>
+        )}
+      </motion.div>
+
+      <motion.h1 variants={itemVariants} className="font-display text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-black mb-4 break-words leading-tight px-2">
+        <span className="bg-gradient-to-r from-[var(--color-primary)] via-[hsl(45,100%,75%)] to-[hsl(200,80%,70%)] bg-clip-text text-transparent animate-gradient-shift drop-shadow-[0_4px_30px_rgba(255,255,255,0.3)]">
+          {age ? `عيد ميلاد سعيد الـ ${age}` : "عيد ميلاد سعيد"}
+        </span>
+      </motion.h1>
+
+      <motion.h2 variants={itemVariants} className="font-display text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black text-foreground animate-glow-pulse mb-10 break-words leading-none px-2">
+        <span className="animate-in fade-in duration-1000 delay-1000">يا {name}!</span>
+      </motion.h2>
+    </motion.section>
+  );
+
+  const messageSection = (
+    <section key="message" className="relative z-20 flex flex-col items-center justify-center h-screen px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-4xl w-full p-8 md:p-16 backdrop-blur-md md:backdrop-blur-3xl border relative overflow-hidden"
+        style={{
+          background: `linear-gradient(165deg, rgba(30,30,30,0.9), rgba(10,10,10,0.98))`,
+          borderColor: `${primaryColor}40`,
+          boxShadow: `0 30px 100px -30px ${primaryColor}30`,
+          borderRadius: 'var(--card-radius, 2rem)',
+        }}
+      >
+        <div className="absolute top-0 right-0 p-8 opacity-10 text-9xl">✨</div>
+        <div className="text-5xl text-center mb-6 animate-bounce">💌</div>
+        <h3 className="font-display text-3xl md:text-5xl font-black text-center mb-8 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          {relationship === 'partner' ? "من أعماق قلبي" : relationship === 'friend' ? "رسالة أسطورية" : "رسالة خاصة"}
+        </h3>
+        <div className="space-y-6 text-center text-xl md:text-2xl text-foreground/90 leading-relaxed">
+          <p className="font-display font-black text-2xl md:text-4xl" style={{ color: primaryColor }}>عزيزتي {name}،</p>
+          {customMessage ? (
+            <p className="italic font-light text-2xl md:text-4xl leading-tight">"{customMessage}"</p>
+          ) : (
+            <div className="space-y-4">
+              <p>{mood === 'romantic' ? "حياتي منورة بوجودك فيها، النهاردة بنحتفل بأجمل وأحن روح عرفتها." : mood === 'energetic' ? "أنت مش بتكبر، أنت بتحلو! الأساطير بس اللي بيستحقوا يوم عظيم زي ده!" : "يوم كله فرح وامتنان عشان بنحتفل بيك. أنت بتنور حياتنا كلها."}</p>
+              <p className="text-lg md:text-xl text-foreground/60">يا رب السنة دي تكون أجمل وأحلى سنة في حياتك كلها. ✨</p>
+            </div>
+          )}
+          <div className="mt-8 p-6 bg-black/40 rounded-2xl border border-white/5 transition-transform duration-500 hover:scale-[1.01] max-h-[40vh] overflow-y-auto scrollbar-hide shadow-inner">
+            <div dir="rtl" className="text-right text-base md:text-lg lg:text-xl leading-relaxed whitespace-pre-line font-light text-foreground/90">
+              {config.letterOverride
+                ? `${config.letterOverride}${letterSignoff}`
+                : `${getHighlySpecificLetter(name, relationship, gender, config.interests)}${letterSignoff}`}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+
+  const cakeSection = (
+    <section key="cake" className="relative z-20 flex items-center justify-center min-h-screen px-4 py-10">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        className="text-center w-full max-w-4xl"
+      >
+        <h3 className="font-display text-4xl sm:text-6xl md:text-7xl font-black mb-6 drop-shadow-xl" style={{ color: primaryColor }}>
+          وقت تقطيع التورتة! 🎂
+        </h3>
+        <p className="text-xl sm:text-2xl md:text-3xl text-foreground/80 mb-8 max-w-2xl mx-auto">
+          جاهزة لأحلى لحظة؟ يلا نعمل شوية سحر! ✨
+        </p>
+        <div className="flex items-center justify-center">
+          <CakeCutting />
+        </div>
+      </motion.div>
+    </section>
+  );
+
+  const slides = [
+    heroSection,
+    <div key="photo" className="flex items-center justify-center min-h-screen"><PhotoGallery /></div>,
+    messageSection,
+    <div key="letter" className="flex items-center justify-center min-h-screen"><LetterBasket /></div>,
+    <div key="promises" className="flex items-center justify-center min-h-screen"><PromisesTree /></div>,
+    <div key="quiz" className="flex items-center justify-center min-h-screen"><BirthdayQuiz /></div>,
+    ...(config.showVideoSection && config.videos && config.videos.length > 0 ? [<div key="video" className="flex items-center justify-center min-h-screen"><VideoGallery /></div>] : []),
+    ...(config.showCakeSection ? [cakeSection] : []),
+    <div key="final" className="flex items-center justify-center min-h-screen"><FinalSurprise /></div>
+  ];
 
   return (
     <div
       onMouseMove={shouldAnimate ? handleMouseMove : undefined}
-      className={`min-h-screen transition-opacity duration-1000 w-full max-w-[100vw] overflow-x-hidden ${visible ? "opacity-100" : "opacity-0"} ${megaSurprise ? "animate-screen-shake" : ""}`}
-      style={{ background: 'transparent' }}
+      className={`fixed inset-0 overflow-hidden bg-background ${visible ? "opacity-100" : "opacity-0"} ${megaSurprise ? "animate-screen-shake" : ""}`}
     >
-      <Balloons count={balloonCount} />
-      <Sparkles count={sparkleCount} />
-
       {/* Mega Surprise Overlay */}
       {megaSurprise && (
         <div className="fixed inset-0 z-[100] bg-white/20 backdrop-blur-sm pointer-events-none animate-flash flex items-center justify-center">
@@ -255,343 +343,52 @@ export const MainBirthday = () => {
         ))}
       </AnimatePresence>
 
-      {/* Hero Section */}
-      <motion.section 
-        variants={containerVariants}
-        initial="hidden"
-        animate={visible ? "visible" : "hidden"}
-        className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 py-20 overflow-hidden"
-      >
-        <motion.div 
-          style={{ x: springX, y: springY }}
-          className="absolute inset-0 pointer-events-none flex items-center justify-center"
-        >
-          <div className="w-[150%] h-[150%] bg-[radial-gradient(circle,var(--color-primary)_0%,transparent_70%)] opacity-[0.05]" />
-        </motion.div>
-
-        <motion.div variants={itemVariants} className="mb-6 relative z-10">
-          <div className="flex justify-center mb-8"><HeartProgression stage={4} /></div>
-          <motion.div 
-            whileHover={shouldAnimate ? { scale: 1.2, rotate: relationship === 'friend' ? [0, -10, 10, 0] : [0, -5, 5, 0] } : undefined}
-            whileTap={{ scale: 0.9 }}
-            className="text-8xl md:text-[10rem] mb-6 cursor-pointer drop-shadow-[0_0_50px_var(--color-primary)]" 
-            onClick={handleCakeClick}
-          >
-            🎂
-          </motion.div>
-          {cakeClicks > 0 && cakeClicks < 7 && (
-            <p className="text-primary font-bold animate-pulse">اضغطي 🎂 {7 - cakeClicks} مرات كمان!</p>
-          )}
-        </motion.div>
-
-        <motion.h1 variants={itemVariants} className="font-display text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black mb-4 break-words leading-tight px-2">
-          <span className="bg-gradient-to-r from-[var(--color-primary)] via-[hsl(45,100%,75%)] to-[hsl(200,80%,70%)] bg-clip-text text-transparent animate-gradient-shift drop-shadow-[0_4px_30px_rgba(255,255,255,0.3)]">
-            {age ? `عيد ميلاد سعيد الـ ${age}` : "عيد ميلاد سعيد"}
-          </span>
-        </motion.h1>
-
-        <motion.h2 variants={itemVariants} className="font-display text-5xl sm:text-7xl md:text-[10rem] lg:text-[13rem] font-black text-foreground animate-glow-pulse mb-10 break-words leading-none px-2">
-          <TypeWriter text={`${name}!`} speed={120} delay={1500} cursor={false} />
-        </motion.h2>
-
-        <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-4 md:gap-8 mt-12 px-4">
-          {activeInterests.length > 0 ? (
-            activeInterests.map((interest, idx) => {
-              const Icon = interestIcons[interest];
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ scale: 0, opacity: 0, y: 20 }}
-                  animate={{ scale: 1, opacity: 1, y: 0 }}
-                  whileHover={{ scale: 1.2, rotate: 10, y: -5 }}
-                  transition={{ delay: 2 + idx * 0.1, type: "spring", stiffness: 300, damping: 15 }}
-                  className="group relative flex flex-col items-center gap-2"
-                >
-                  <div className="p-4 md:p-6 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 text-primary shadow-[0_0_20px_rgba(var(--color-primary),0.2)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_0_40px_rgba(var(--color-primary),0.4)]">
-                    <Icon size={window.innerWidth < 768 ? 24 : 40} strokeWidth={1.5} />
-                  </div>
-                  <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-white/30 group-hover:text-primary/70 transition-colors">
-                    {interest}
-                  </span>
-                </motion.div>
-              );
-            })
-          ) : (
-            <div className="text-5xl md:text-7xl space-x-4">
-              <span>🎈</span><span>🎉</span><span>🎊</span><span>🎁</span><span>🥳</span>
-            </div>
-          )}
-        </motion.div>
-      </motion.section>
-
-      {/* Components */}
-      {/* <CakeCutting />  Move to end */}
-
-      {/* PhotoGallery */}
-      <PhotoGallery />
-
-      {/* Message Card */}
-      <section className="relative z-20 flex justify-center px-4 pb-32 pt-16">
+      <AnimatePresence mode="wait">
         <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px" }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-4xl w-full p-8 md:p-20 backdrop-blur-3xl border relative overflow-hidden"
-          style={{
-            background: `linear-gradient(165deg, rgba(30,30,30,0.9), rgba(10,10,10,0.98))`,
-            borderColor: `${primaryColor}40`,
-            boxShadow: `0 30px 100px -30px ${primaryColor}30`,
-            borderRadius: 'var(--card-radius, 2rem)',
-          }}
+          key={currentSlide}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          className="absolute inset-0 overflow-y-auto overflow-x-hidden pb-24"
         >
-          <div className="absolute top-0 right-0 p-8 opacity-10 text-9xl">✨</div>
-          <div className="text-7xl text-center mb-10 animate-bounce">💌</div>
-          <h3 className="font-display text-4xl md:text-6xl font-black text-center mb-12 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            {relationship === 'partner' ? "من أعماق قلبي" : relationship === 'friend' ? "رسالة أسطورية" : "رسالة خاصة"}
-          </h3>
-          <div className="space-y-10 text-center text-2xl md:text-3xl text-foreground/90 leading-relaxed">
-            <p className="font-display font-black text-3xl md:text-5xl" style={{ color: primaryColor }}>عزيزتي {name}،</p>
-            {customMessage ? (
-              <p className="italic font-light text-3xl md:text-5xl leading-tight">"{customMessage}"</p>
-            ) : (
-              <div className="space-y-8">
-                <p>{mood === 'romantic' ? "My world is infinitely brighter because you are in it. Today is a celebration of the most beautiful soul I know." : mood === 'energetic' ? "You're not just older, you're better. A true legend deserves an epic day!" : "Today is a day of joy and gratitude as we celebrate you. You bring so much light into our lives."}</p>
-                <p className="text-xl md:text-2xl text-foreground/60">May this new chapter be your best one yet. ✨</p>
-              </div>
-            )}
-            {/* Emotional Letter */}
-            <div className="mt-12 p-8 bg-white/5 rounded-2xl border border-white/10 transition-transform duration-500 hover:scale-[1.02]">
-              <h4 
-                className="font-display text-2xl md:text-4xl font-black mb-6 text-primary cursor-pointer"
-                onDoubleClick={() => { fireCannon(); playBoom(); }}
-                title="Double tap for a surprise!"
-              >
-                {config.letterTitle || "جواب خاص ليكي لوحدك 💌"}
-              </h4>
-              <div className="text-left text-lg md:text-xl leading-relaxed whitespace-pre-line font-light">
-                {config.letterOverride
-                  ? `${config.letterOverride}${letterSignoff}`
-                  : `${getHighlySpecificLetter(name, relationship, gender, config.interests)}${letterSignoff}`}
-              </div>
-            </div>
-          </div>
+          {slides[currentSlide]}
         </motion.div>
-      </section>
-
-      {/* Car Surprise for Enthusiasts */}
-      {config.interests?.some(i => i.toLowerCase().includes('car')) && (
-        <div className="relative h-20 w-full overflow-hidden opacity-30 pointer-events-none mb-10">
-          <motion.div
-            animate={{ x: ["-100%", "200%"] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-            className="flex items-center gap-4 text-primary"
-          >
-            <Car size={40} />
-            <div className="h-[2px] w-40 bg-gradient-to-r from-transparent via-primary to-transparent" />
-            <Trophy size={30} />
-          </motion.div>
-          <motion.div
-            animate={{ x: ["-150%", "250%"] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
-            className="flex items-center gap-4 text-secondary mt-4"
-          >
-            <Car size={32} />
-            <div className="h-[1px] w-60 bg-gradient-to-r from-transparent via-secondary to-transparent" />
-          </motion.div>
-        </div>
-      )}
-
-      {/* Birthday Quiz Section */}
-      <BirthdayQuiz />
-
-      {/* Wishes Section */}
-      <section className="relative z-20 px-4 pb-32">
-        <h3 className="font-display text-5xl md:text-8xl font-black text-center mb-20 drop-shadow-xl" style={{ color: primaryColor }}>أماني ليكي ✨</h3>
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-          {bigWishes.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.15 }}
-              whileHover={!isMobile ? { y: -15, scale: 1.03, rotate: i % 2 === 0 ? 1 : -1, boxShadow: `0 30px 60px -15px ${primaryColor}40` } : undefined}
-              className="p-10 backdrop-blur-3xl border cursor-pointer group bg-gradient-to-br from-white/10 to-transparent border-white/10"
-              style={{ borderRadius: 'var(--card-radius, 2.5rem)' }}
-              onClick={addEmoji}
-            >
-              <div className="text-7xl mb-8 group-hover:scale-125 transition-transform duration-500">{item.emoji}</div>
-              <p className="text-foreground/95 text-2xl md:text-4xl font-black leading-tight tracking-tight">{item.wish}</p>
-              <div className="mt-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                {[1, 2, 3].map(j => <Star key={j} size={16} className="text-primary fill-primary" />)}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative z-20 px-4 pb-20">
-        <div className="max-w-6xl mx-auto">
-          <motion.button
-            type="button"
-            onClick={openGift}
-            whileHover={shouldAnimate ? { scale: 1.02 } : undefined}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.3 }}
-            className="w-full rounded-[3rem] border border-white/10 bg-gradient-to-r from-primary/15 to-transparent p-8 text-left shadow-2xl backdrop-blur-3xl hover:border-primary/40"
-          >
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div>
-                <p className="text-2xl md:text-3xl font-display font-black text-white">🎁 كود الهدية السري</p>
-                <p className="mt-3 text-sm md:text-base text-foreground/70 max-w-2xl leading-relaxed">
-                  The party starts first, the crowd is hyped, and only then does the gift reveal open. Tap now to trigger the tease, light the dance floor, and keep the surprise waiting for its perfect moment.
-                </p>
-              </div>
-              <div className="inline-flex h-24 w-24 items-center justify-center rounded-3xl bg-white/10 text-4xl text-white shadow-[0_15px_50px_rgba(0,0,0,0.4)]">
-                🎁
-              </div>
-            </div>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm text-white/75">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10">✨</span>
-              Your code: <span className="font-semibold text-primary">{specialCode}</span>
-            </div>
-          </motion.button>
-        </div>
-      </section>
-
-      <AnimatePresence>
-        {giftStage !== 'closed' && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-3xl p-6"
-            onClick={() => setGiftStage('closed')}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.35 }}
-              className="relative w-full max-w-3xl rounded-[2.5rem] border border-white/10 bg-black/90 p-6 sm:p-8 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)] max-h-[calc(100vh-4rem)] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {giftStage === 'party' ? (
-                <div className="flex flex-col gap-6 text-center min-h-[42vh] justify-center">
-                  <div className="text-6xl">🎂🎉✨</div>
-                  <h3 className="text-4xl md:text-6xl font-black text-white">The party is teasing the surprise!</h3>
-                  <p className="text-lg md:text-xl text-white/85 max-w-xl mx-auto leading-relaxed">
-                    The crowd is cheering, the lights are flashing, and the celebration message is made to stay visible on every screen. Watch the party tease before the gift reveal arrives.
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-                    {[
-                      { icon: '🎶', label: 'Music builds' },
-                      { icon: '🔥', label: 'Crowd hype' },
-                      { icon: '✨', label: 'Gift tease' }
-                    ].map((item) => (
-                      <div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
-                        <span className="mr-2">{item.icon}</span>{item.label}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mx-auto inline-flex rounded-full bg-white/10 px-6 py-4 text-2xl font-semibold text-white shadow-[0_20px_60px_-30px_rgba(255,255,255,0.4)]">
-                    Pataka mood activated.
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-6 text-center">
-                  <div className="text-5xl">🎉</div>
-                  <h3 className="text-4xl md:text-6xl font-black text-white">Surprise Unlocked!</h3>
-                  <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto">
-                    First the party sparkled, then the gift arrived. Your secret code is built from your relationship theme, your favorite interests, and a little playful mischief.
-                  </p>
-                  <div className="mx-auto inline-flex rounded-full bg-primary/10 px-6 py-4 text-2xl font-semibold text-primary shadow-[0_20px_60px_-30px_rgba(255,255,255,0.4)]">
-                    {specialCode}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => { setGiftStage('closed'); fireConfetti(); }}
-                    className="mx-auto rounded-full bg-primary px-10 py-4 text-xl font-black text-black transition-all hover:scale-105"
-                  >
-                    Close Gift
-                  </button>
-                </div>
-              )}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/90 to-transparent" />
-            </motion.div>
-          </motion.div>
-        )}
       </AnimatePresence>
 
-      {/* Magnetic Buttons Section */}
-      <section className="relative z-20 flex flex-wrap justify-center gap-8 px-4 pb-32">
-        {[
-          {label: "🎊 مدفع!", color: primaryColor, action: fireCannon },
-          {label: "🎈 حفلة!", color: "hsl(45, 100%, 50%)", action: fireConfetti },
-          {label: "💫 حب!", color: "hsl(200, 80%, 50%)", action: () => { for (let i = 0; i < 5; i++) setTimeout(addEmoji, i * 200); } }
-        ].map((btn, i) => (
-          <motion.button
-            key={i}
-            whileHover={shouldAnimate ? { scale: 1.15, rotate: i % 2 === 0 ? 3 : -3 } : undefined}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => { btn.action(); addEmoji(); }}
-            className="px-12 py-6 rounded-full text-2xl font-black text-white shadow-2xl transition-all"
-            style={{ 
-              background: `linear-gradient(135deg, ${btn.color}, ${btn.color}dd)`,
-              boxShadow: `0 15px 45px -10px ${btn.color}60` 
-            }}
-          >
-            {btn.label}
-          </motion.button>
-        ))}
-      </section>
+      {/* Navigation Bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-[60] p-4 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-between pointer-events-none">
+        <div className="flex gap-2 pointer-events-auto">
+          {currentSlide > 0 && (
+            <button
+              onClick={() => setCurrentSlide(s => s - 1)}
+              className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-bold transition-all border border-white/20"
+            >
+              السابق
+            </button>
+          )}
+        </div>
+        
+        <div className="flex gap-1">
+          {slides.map((_, i) => (
+            <div 
+              key={i} 
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-primary w-6' : 'bg-white/30'}`}
+            />
+          ))}
+        </div>
 
-      <HeartTree delay={500} />
-      
-      {config.showVideoSection && <VideoGallery />}
-
-      {/* Cake Cutting Section */}
-      {config.showCakeSection && (
-        <section id="cake-section" className="relative z-20 px-4 pb-16 sm:pb-32">
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "0px" }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center"
-        >
-          <h3 className="font-display text-4xl sm:text-6xl md:text-7xl font-black mb-8 sm:mb-12 drop-shadow-xl" style={{ color: primaryColor }}>
-            وقت تقطيع التورتة! 🎂
-          </h3>
-          <p className="text-xl sm:text-2xl md:text-3xl text-foreground/80 mb-10 sm:mb-12 max-w-2xl mx-auto">
-            Ready for the sweetest moment? Let's make some magic happen! ✨
-          </p>
-          <motion.button
-            whileHover={shouldAnimate ? { scale: 1.05 } : undefined}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => { addEmoji(); scrollToCake(); }}
-            className="px-10 py-5 sm:px-12 sm:py-6 rounded-full text-xl sm:text-2xl font-black text-white shadow-2xl mb-12 sm:mb-20"
-            style={{ 
-              background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}dd)`,
-              boxShadow: `0 15px 45px -10px ${primaryColor}60` 
-            }}
-          >
-            🎂 ابدأ تقطيع التورتة
-          </motion.button>
-          <CakeCutting />
-        </motion.div>
-      </section>
-      )}
-
-      {/* Final Surprise & Emotional Closing */}
-      <FinalSurprise />
-
-      <footer className="relative z-20 text-center py-20 bg-black/40 w-full">
-        <p className="mt-4 text-white/10 text-[10px] tracking-[0.5em] uppercase">
-          Crafted by NABORAJ SARKAR — Cinematic Engine v2.5
-        </p>
-      </footer>
+        <div className="flex gap-2 pointer-events-auto">
+          {currentSlide < slides.length - 1 && (
+            <button
+              onClick={() => setCurrentSlide(s => s + 1)}
+              className="px-8 py-3 rounded-full bg-primary hover:bg-primary/80 text-white font-bold transition-all shadow-lg shadow-primary/30 animate-pulse"
+            >
+              التالي
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

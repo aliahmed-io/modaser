@@ -18,7 +18,7 @@ export const VideoGallery = () => {
         className="font-display text-5xl md:text-8xl font-black text-center mb-16 drop-shadow-xl"
         style={{ color: config.favoriteColor || '#FF6B6B' }}
       >
-        SPECIAL MEMORIES 🎬
+        لحظات خاصة 🎬
       </motion.h3>
 
       <div className="flex flex-col gap-12 w-full max-w-4xl mx-auto">

@@ -27,14 +27,12 @@ export const PhotoGallery = () => {
     }));
   }, []);
 
-  // 3D Tilt Effect
+  // Custom Cursor Tracking
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useSpring(useTransform(y, [-100, 100], [10, -10]), { damping: 20, stiffness: 150 });
-  const rotateY = useSpring(useTransform(x, [-100, 100], [-10, 10]), { damping: 20, stiffness: 150 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!supportsTilt || isMobile) return;
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -90,31 +88,30 @@ export const PhotoGallery = () => {
 
   return (
     <>
-      <section className="relative z-20 px-4 py-32 max-w-7xl mx-auto overflow-hidden">
+      <section className="relative z-20 px-4 py-20 max-w-4xl mx-auto overflow-hidden">
         <motion.h3 
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="font-display text-6xl md:text-8xl lg:text-[10rem] font-black text-center mb-24 bg-gradient-to-b from-white via-white/80 to-white/20 bg-clip-text text-transparent drop-shadow-2xl"
+          className="font-display text-4xl md:text-6xl lg:text-7xl font-black text-center mb-16 bg-gradient-to-b from-white via-white/80 to-white/20 bg-clip-text text-transparent drop-shadow-2xl"
         >
-          MEMORIES 📸
+          ذكرياتنا 📸
         </motion.h3>
 
         <motion.div 
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          style={isMobile ? undefined : { rotateX, rotateY, perspective: 1000 }}
           className={`relative group ${isMobile ? '' : 'cursor-none'}`}
         >
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
-              initial={isMobile ? { opacity: 1, scale: 1, rotateY: 0, filter: "blur(0px)" } : { opacity: 0, scale: 0.9, rotateY: -15, filter: "blur(20px)" }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0, filter: "blur(0px)" }}
-              exit={isMobile ? undefined : { opacity: 0, scale: 1.1, rotateY: 15, filter: "blur(20px)" }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.05 }}
               transition={{ duration: transitionDuration, ease: [0.22, 1, 0.36, 1] }}
               style={{ aspectRatio: photoRatios[photos[activeIndex].key] ?? 16 / 9 }}
-              className="relative rounded-[3rem] overflow-hidden shadow-[0_60px_120px_-20px_rgba(0,0,0,0.8)] border border-white/10"
+              className="relative rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_60px_120px_-20px_rgba(0,0,0,0.8)] border border-white/10 max-h-[50vh] md:max-h-[60vh] w-full"
               onClick={() => setLightbox(activeIndex)}
             >
               {photos[activeIndex].type === 'video' ? (
@@ -132,7 +129,7 @@ export const PhotoGallery = () => {
                   alt={photos[activeIndex].caption}
                   onLoad={(e) => handleImageLoad(photos[activeIndex].key, e)}
                   loading="lazy"
-                  className={`w-full h-full object-cover transition-transform duration-1000 ${!isMobile ? "group-hover:scale-110" : ""}`}
+                  className="w-full h-full object-cover transition-transform duration-1000"
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
@@ -141,7 +138,7 @@ export const PhotoGallery = () => {
                 <motion.p 
                   initial={{ y: 30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  className="font-display text-3xl md:text-5xl lg:text-6xl text-white font-black italic tracking-tighter drop-shadow-2xl"
+                  className="font-display text-2xl md:text-4xl text-white font-black italic tracking-tighter drop-shadow-2xl"
                 >
                   {photos[activeIndex].caption}
                 </motion.p>
@@ -152,8 +149,8 @@ export const PhotoGallery = () => {
                 style={{ x, y }}
                 className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black uppercase tracking-widest text-xs">
-                  View Large
+                <div className="w-24 h-24 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-black tracking-widest text-xs">
+                  عرض كبير
                 </div>
               </motion.div>
             </motion.div>
@@ -184,7 +181,7 @@ export const PhotoGallery = () => {
               onClick={() => setActiveIndex(i)}
               whileHover={!isMobile ? { scale: 1.15, y: -10, rotate: i % 2 === 0 ? 2 : -2 } : undefined}
               whileTap={{ scale: 0.9 }}
-              className={`relative cursor-pointer rounded-2xl md:rounded-3xl overflow-hidden w-20 h-20 md:w-40 md:h-40 border-4 transition-all duration-700 ${i === activeIndex ? "border-primary scale-110 shadow-[0_20px_50px_rgba(var(--color-primary-rgb),0.4)]" : "border-transparent opacity-30 hover:opacity-100"}`}
+              className={`relative cursor-pointer rounded-xl md:rounded-2xl overflow-hidden w-16 h-16 md:w-28 md:h-28 border-2 transition-all duration-700 ${i === activeIndex ? "border-primary scale-110 shadow-[0_10px_30px_rgba(var(--color-primary-rgb),0.4)]" : "border-transparent opacity-30 hover:opacity-100"}`}
             >
               {photo.type === 'video' ? (
                 <video src={photo.src} className="w-full h-full object-cover" muted playsInline />
@@ -213,7 +210,7 @@ export const PhotoGallery = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/98 backdrop-blur-3xl p-4 md:p-8"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/98 backdrop-blur-md md:backdrop-blur-3xl p-4 md:p-8"
             onClick={() => setLightbox(null)}
           >
             <motion.div 

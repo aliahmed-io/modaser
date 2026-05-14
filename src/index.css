@@ -5,33 +5,43 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 280 60% 8%;
-    --foreground: 45 100% 95%;
-    --card: 280 40% 12%;
-    --card-foreground: 45 100% 95%;
-    --popover: 280 40% 12%;
-    --popover-foreground: 45 100% 95%;
-    --primary: 330 85% 60%;
+  @layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+:root {
+    --background: 345 50% 5%;
+    --foreground: 0 0% 95%;
+    --card: 345 40% 8%;
+    --card-foreground: 0 0% 95%;
+    --popover: 345 40% 8%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 348 83% 47%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 270 60% 55%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 280 30% 20%;
-    --muted-foreground: 280 10% 70%;
-    --accent: 45 100% 60%;
-    --accent-foreground: 280 60% 8%;
+    --secondary: 345 30% 15%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 345 20% 12%;
+    --muted-foreground: 345 15% 65%;
+    --accent: 348 83% 47%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 280 30% 25%;
-    --input: 280 30% 25%;
-    --ring: 330 85% 60%;
+    --border: 345 20% 15%;
+    --input: 345 20% 15%;
+    --ring: 348 83% 47%;
     --radius: 0.75rem;
-    --birthday-pink: 330 85% 60%;
-    --birthday-purple: 270 60% 55%;
-    --birthday-gold: 45 100% 60%;
-    --birthday-sky: 200 80% 60%;
-    --birthday-coral: 15 85% 65%;
-    --birthday-mint: 160 60% 55%;
+    --birthday-pink: 348 83% 47%;
+    --birthday-purple: 345 30% 15%;
+    --birthday-gold: 45 70% 50%;
+    --birthday-sky: 345 20% 25%;
+    --birthday-coral: 348 83% 47%;
+    --birthday-mint: 345 20% 15%;
   }
 
   * {
@@ -40,7 +50,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-display, 'Quicksand'), sans-serif;
+    font-family: 'Inter', sans-serif;
     overflow-x: hidden;
     transition: background 1.5s ease-in-out;
     position: relative;
@@ -55,6 +65,12 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     opacity: 0.04;
     mix-blend-mode: overlay;
+  }
+
+  @media (max-width: 768px) {
+    body::after {
+      display: none; /* feTurbulence is GPU-intensive, skip on mobile */
+    }
   }
 
   .vignette {
@@ -100,14 +116,11 @@
 }
 
 @keyframes glow-pulse {
-
-  0%,
-  100% {
-    text-shadow: 0 0 20px hsl(330 85% 60% / 0.5), 0 0 40px hsl(330 85% 60% / 0.3);
+  0%, 100% {
+    text-shadow: 0 0 20px hsl(350 75% 50% / 0.5), 0 0 40px hsl(350 75% 50% / 0.3);
   }
-
   50% {
-    text-shadow: 0 0 40px hsl(330 85% 60% / 0.8), 0 0 80px hsl(330 85% 60% / 0.5), 0 0 120px hsl(45 100% 60% / 0.3);
+    text-shadow: 0 0 40px hsl(350 75% 50% / 0.8), 0 0 80px hsl(350 75% 50% / 0.5), 0 0 120px hsl(35 85% 55% / 0.3);
   }
 }
 
@@ -204,14 +217,11 @@
 }
 
 @keyframes cake-glow {
-
-  0%,
-  100% {
-    filter: drop-shadow(0 0 10px hsl(45 100% 60% / 0.5));
+  0%, 100% {
+    filter: drop-shadow(0 0 10px hsl(35 85% 55% / 0.5));
   }
-
   50% {
-    filter: drop-shadow(0 0 30px hsl(45 100% 60% / 0.8)) drop-shadow(0 0 60px hsl(330 85% 60% / 0.4));
+    filter: drop-shadow(0 0 30px hsl(35 85% 55% / 0.8)) drop-shadow(0 0 60px hsl(350 75% 50% / 0.4));
   }
 }
 

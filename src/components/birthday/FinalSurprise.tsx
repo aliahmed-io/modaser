@@ -15,13 +15,13 @@ export const FinalSurprise = () => {
   const primaryColor = config.favoriteColor || "#ff0080";
 
   return (
-    <section className="relative z-20 py-32 px-4 overflow-hidden">
+    <section className="relative z-20 py-10 px-4 overflow-hidden flex flex-col items-center justify-center min-h-screen">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-10"
         >
           <h2 className="font-display text-5xl md:text-8xl font-black mb-6 bg-gradient-to-r from-primary via-white to-accent bg-clip-text text-transparent">
             ذكرياتنا الخاصة 🎞️
@@ -32,7 +32,7 @@ export const FinalSurprise = () => {
         </motion.div>
 
         {/* Memory Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
           {memories.map((memory, i) => (
             <motion.div
               key={i}
@@ -89,7 +89,7 @@ export const FinalSurprise = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-40 text-center space-y-12 pb-40"
+          className="mt-20 text-center space-y-6 pb-20"
         >
           <motion.div
             animate={isMobile ? { scale: [1, 1.05, 1], rotate: [0, 0, 0] } : { scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
@@ -99,12 +99,12 @@ export const FinalSurprise = () => {
             <Heart size={80} fill={primaryColor} className="text-primary drop-shadow-[0_0_30px_var(--color-primary)]" />
           </motion.div>
           
-          <div className="space-y-6">
-            <h3 className="font-display text-4xl md:text-7xl font-black tracking-tight leading-tight">
+          <div className="space-y-4">
+            <h3 className="font-display text-3xl md:text-5xl font-black tracking-tight leading-tight">
               أتمنى تكون المفاجأة دي خلت يومك <br />
-              <span style={{ color: primaryColor }} className="animate-pulse text-primary">مميز زي ما إنتي مميزة</span>
+              <span style={{ color: primaryColor }} className="animate-pulse text-primary text-2xl md:text-4xl">مميز زي ما إنتي مميزة</span>
             </h3>
-            <p className="text-xl md:text-3xl font-light text-foreground/60 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-2xl font-light text-foreground/60 max-w-3xl mx-auto leading-relaxed">
               كل تفصيلة، وكل حركة، وكل كلمة اتعملت بكل حب. <br />
               عيد ميلاد سعيد مرة تانية يا {config.name}. ✨
             </p>

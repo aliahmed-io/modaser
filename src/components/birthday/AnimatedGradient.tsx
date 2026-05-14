@@ -1,36 +1,36 @@
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Gradient {
   id: number;
   delay: number;
-  rotation: number;
   color1: string;
   color2: string;
 }
 
 export const AnimatedGradient = () => {
+  const isMobile = useIsMobile();
+
+  // Skip entirely on mobile — conic-gradient + blur(80px) + rotate is the worst GPU combo
+  if (isMobile) {
+    return (
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 30% 30%, rgba(153,27,27,0.18) 0%, transparent 60%), " +
+              "radial-gradient(ellipse at 80% 80%, rgba(185,28,28,0.12) 0%, transparent 60%)",
+          }}
+        />
+      </div>
+    );
+  }
+
   const gradients: Gradient[] = [
-    {
-      id: 1,
-      delay: 0,
-      rotation: 0,
-      color1: "rgba(255, 107, 107, 0.2)",
-      color2: "rgba(255, 182, 193, 0.1)",
-    },
-    {
-      id: 2,
-      delay: 1,
-      rotation: 120,
-      color1: "rgba(78, 205, 196, 0.15)",
-      color2: "rgba(149, 225, 211, 0.08)",
-    },
-    {
-      id: 3,
-      delay: 2,
-      rotation: 240,
-      color1: "rgba(255, 230, 109, 0.1)",
-      color2: "rgba(255, 215, 0, 0.05)",
-    },
+    { id: 1, delay: 0, color1: "rgba(153, 27, 27, 0.18)", color2: "rgba(185, 28, 28, 0.08)" },
+    { id: 2, delay: 1, color1: "rgba(127, 29, 29, 0.12)", color2: "rgba(220, 38, 38, 0.05)" },
+    { id: 3, delay: 2, color1: "rgba(180, 83, 9, 0.08)",  color2: "rgba(120, 53, 15, 0.04)" },
   ];
 
   return (
@@ -41,18 +41,10 @@ export const AnimatedGradient = () => {
           className="absolute inset-0"
           style={{
             background: `conic-gradient(${gradient.color1}, ${gradient.color2})`,
-            filter: "blur(80px)",
+            filter: "blur(60px)",
           }}
-          animate={{
-            rotate: [0, 360],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 20,
-            delay: gradient.delay,
-            repeat: Infinity,
-            ease: "linear",
-          }}
+          animate={{ rotate: [0, 360], opacity: [0.3, 0.55, 0.3] }}
+          transition={{ duration: 25, delay: gradient.delay, repeat: Infinity, ease: "linear" }}
         />
       ))}
     </div>

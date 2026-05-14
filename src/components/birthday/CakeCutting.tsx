@@ -131,7 +131,9 @@ const MagicDust = ({ count }: { count: number }) => {
   );
 };
 
-const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOption; split: boolean; candlesLit: boolean; name: string; springConfig?: { type: string; stiffness: number; damping: number } }) => (
+const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOption; split: boolean; candlesLit: boolean; name: string; springConfig?: { type: string; stiffness: number; damping: number } }) => {
+  const isMobile = useIsMobile();
+  return (
   <motion.div 
     animate={{ rotateX: split ? 25 : 8, rotateY: split ? 5 : 0, scale: split ? 1.15 : 1 }}
     transition={springConfig ?? { type: "spring", stiffness: 80, damping: 12 }}
@@ -174,7 +176,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
 
       {/* Bottom Layer (Splittable) */}
       <g style={{ transform: split ? "translateX(-40px) rotate(-12deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill={cake.layers[0]} filter="url(#cakeDepth)" />
+        <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill={cake.layers[0]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
         <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill="url(#layerGrad)" />
         <path d="M15,140 Q57.5,150 100,140 Q57.5,130 15,140 Z" fill={cake.frosting} />
         {/* Drip Effect */}
@@ -182,7 +184,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
         <path d="M60,142 Q65,155 70,142" fill={cake.frosting} opacity="0.8" />
       </g>
       <g style={{ transform: split ? "translateX(40px) rotate(12deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill={cake.layers[0]} filter="url(#cakeDepth)" />
+        <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill={cake.layers[0]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
         <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill="url(#layerGrad)" />
         <path d="M100,140 Q142.5,150 185,140 Q142.5,130 100,140 Z" fill={cake.frosting} />
         {/* Drip Effect */}
@@ -192,14 +194,14 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
 
       {/* Middle Layer (Splittable) */}
       <g style={{ transform: split ? "translateX(-25px) rotate(-8deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill={cake.layers[1]} filter="url(#cakeDepth)" />
+        <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill={cake.layers[1]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
         <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill="url(#layerGrad)" />
         <path d="M30,95 Q65,105 100,95 Q65,85 30,95 Z" fill={cake.frosting} opacity="0.9" />
         {/* Drip Effect */}
         <path d="M45,100 Q50,115 55,100" fill={cake.frosting} opacity="0.8" />
       </g>
       <g style={{ transform: split ? "translateX(25px) rotate(8deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill={cake.layers[1]} filter="url(#cakeDepth)" />
+        <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill={cake.layers[1]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
         <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill="url(#layerGrad)" />
         <path d="M100,95 Q135,105 170,95 Q135,85 100,95 Z" fill={cake.frosting} opacity="0.9" />
         {/* Drip Effect */}
@@ -208,7 +210,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
 
       {/* Top Layer (Splittable) */}
       <g style={{ transform: split ? "translateX(-15px) rotate(-5deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill={cake.layers[2]} filter="url(#cakeDepth)" />
+        <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill={cake.layers[2]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
         <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill="url(#layerGrad)" />
         <path d="M45,50 Q72.5,60 100,50 Q72.5,40 45,50 Z" fill={cake.frosting} />
         <path d="M45,50 Q72.5,60 100,50 Q72.5,40 45,50 Z" fill="url(#topFrosting)" />
@@ -216,7 +218,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
         <path d="M60,55 Q65,70 70,55" fill={cake.frosting} opacity="0.8" />
       </g>
       <g style={{ transform: split ? "translateX(15px) rotate(5deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill={cake.layers[2]} filter="url(#cakeDepth)" />
+        <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill={cake.layers[2]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
         <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill="url(#layerGrad)" />
         <path d="M100,50 Q127.5,60 155,50 Q127.5,40 100,50 Z" fill={cake.frosting} />
         <path d="M100,50 Q127.5,60 155,50 Q127.5,40 100,50 Z" fill="url(#topFrosting)" />
@@ -229,7 +231,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
         <g key={i} style={{ transform: split ? (cx < 100 ? "translateX(-15px) rotate(-5deg)" : cx > 100 ? "translateX(15px) rotate(5deg)" : "scale(0.8) translateY(10px)") : "none", transition: "all 1s ease" }}>
           <rect x={cx - 1.5} y="15" width="3" height="35" rx="1.5" fill={`hsl(${i * 50 + 180}, 80%, 70%)`} />
           {candlesLit ? (
-            <g className="animate-flame-premium" filter="url(#candleGlow)">
+            <g className="animate-flame-premium" filter={!isMobile ? "url(#candleGlow)" : undefined}>
               <ellipse cx={cx} cy="5" rx="6" ry="12" fill={cake.accent} style={{ filter: "blur(1px)" }} />
               <ellipse cx={cx} cy="6" rx="2.5" ry="7" fill="white" />
               <circle cx={cx} cy="5" r="20" fill={cake.accent} opacity="0.2" className="animate-pulse" />
@@ -265,7 +267,8 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
       )}
     </svg>
   </motion.div>
-);
+  );
+};
 
 const KnifeSVG = ({ phase }: { phase: Phase }) => {
   const isMobile = useIsMobile();
@@ -304,7 +307,7 @@ const CakeCard = ({ cake, index, onSelect }: { cake: CakeOption; index: number; 
       whileHover={!isMobile ? { scale: 1.05, y: -10, rotateZ: 2 } : undefined}
       whileTap={{ scale: 0.95 }}
       onClick={onSelect}
-      className="group relative flex flex-col items-center gap-3 p-3 border border-white/10 backdrop-blur-2xl transition-all duration-500 overflow-hidden"
+      className="group relative flex flex-col items-center gap-3 p-3 border border-white/10 backdrop-blur-md md:backdrop-blur-2xl transition-all duration-500 overflow-hidden"
       style={{
         background: "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01))",
         borderRadius: 'var(--card-radius, 2rem)',
@@ -435,7 +438,7 @@ export const CakeCutting = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-[100] flex flex-col items-center justify-start md:justify-center backdrop-blur-2xl overflow-y-auto overscroll-none py-10 md:py-8"
+              className="fixed inset-0 z-[100] flex flex-col items-center justify-start md:justify-center backdrop-blur-md md:backdrop-blur-2xl overflow-y-auto overscroll-none py-10 md:py-8"
               style={{ 
                 background: "radial-gradient(circle at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.95) 100%)"
               }}

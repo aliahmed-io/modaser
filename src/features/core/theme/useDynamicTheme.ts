@@ -13,7 +13,10 @@ const hexToHSL = (hex: string) => {
     b = parseInt("0x" + hex[5] + hex[6]);
   }
   r /= 255; g /= 255; b /= 255;
-  let cmin = Math.min(r,g,b), cmax = Math.max(r,g,b), delta = cmax - cmin, h = 0, s = 0, l = 0;
+  const cmin = Math.min(r,g,b);
+  const cmax = Math.max(r,g,b);
+  const delta = cmax - cmin;
+  let h = 0, s = 0, l = 0;
   if (delta === 0) h = 0;
   else if (cmax === r) h = ((g - b) / delta) % 6;
   else if (cmax === g) h = (b - r) / delta + 2;
@@ -41,14 +44,15 @@ export const useDynamicTheme = () => {
 
     // RELATIONSHIP TEMPLATE OVERRIDES
     if (relationship === 'partner') {
-      // ROMANTIC TEMPLATE: Deep, Dreamy, Serif
-      root.style.setProperty('--bg-gradient', `radial-gradient(circle at 50% 50%, hsl(${h}, 40%, 12%) 0%, #050505 100%)`);
-      root.style.setProperty('--glow-effect', `0 0 50px hsl(${h}, 60%, 45%, 0.6)`);
+      // ROMANTIC TEMPLATE: Deep crimson/wine — mature red palette
+      root.style.setProperty('--bg-gradient', 'radial-gradient(ellipse at 40% 30%, hsl(350, 55%, 11%) 0%, hsl(0, 25%, 5%) 60%, #030303 100%)');
+      root.style.setProperty('--glow-effect', '0 0 50px hsl(350, 70%, 40%, 0.6)');
       root.style.setProperty('--glass-opacity', '0.08');
       root.style.setProperty('--font-display', '"Playfair Display", "Times New Roman", serif');
       root.style.setProperty('--animation-pacing', '2s');
       root.style.setProperty('--particle-speed', '0.5');
       root.style.setProperty('--card-radius', '3rem');
+      root.style.setProperty('--color-primary', 'hsl(350, 70%, 48%)');
     } else if (relationship === 'friend') {
       // ENERGETIC TEMPLATE: Vibrant, Fast, Bold Sans
       root.style.setProperty('--bg-gradient', `linear-gradient(135deg, hsl(${h}, 70%, 15%) 0%, #111111 100%)`);
