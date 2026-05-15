@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback, useMemo, CSSProperties } from "react";
+import { useState, useEffect, useCallback, useMemo, CSSProperties, memo } from "react";
 import { createPortal } from "react-dom";
 import { Cake as CakeIcon, Flame, Heart, Sparkles } from "lucide-react";
 import { useConfetti } from "./Confetti";
 import { useSoundManager } from "./SoundManager";
-import { KineticText } from "./KineticText";
+import { KineticText } from "./KineticText.tsx";
 import { useBirthdayStore } from "@/features/core/store/useBirthdayStore";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -87,12 +87,13 @@ const CutSparks = ({ count, color }: { count: number; color: string }) => {
             rotate: s.angle * 2
           }}
           transition={{ duration: s.duration, ease: "easeOut" }}
-          className="absolute left-1/2 top-1/2 rounded-full"
+          className="absolute left-1/2 top-1/2 rounded-full will-change-transform"
           style={{
             width: s.size,
             height: s.size,
             background: `hsl(${s.hue}, 100%, 70%)`,
             boxShadow: `0 0 15px hsl(${s.hue}, 100%, 70%), 0 0 30px white`,
+            transform: "translateZ(0)"
           }}
         />
       ))}
@@ -100,7 +101,7 @@ const CutSparks = ({ count, color }: { count: number; color: string }) => {
   );
 };
 
-const MagicDust = ({ count }: { count: number }) => {
+const MagicDust = memo(({ count }: { count: number }) => {
   const dust = useMemo(() => Array.from({ length: count }, (_, i) => ({
     id: i,
     x: Math.random() * 400 - 200,
@@ -123,22 +124,22 @@ const MagicDust = ({ count }: { count: number }) => {
             scale: [0, 1.5, 0]
           }}
           transition={{ duration: d.duration, repeat: Infinity, delay: d.delay }}
-          className="absolute left-1/2 top-1/2 w-1 h-1 bg-white rounded-full blur-[1px]"
-          style={{ width: d.size, height: d.size }}
+          className="absolute left-1/2 top-1/2 w-1 h-1 bg-white rounded-full blur-[1px] will-change-transform"
+          style={{ width: d.size, height: d.size, transform: "translateZ(0)" }}
         />
       ))}
     </div>
   );
-};
+});
 
-const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOption; split: boolean; candlesLit: boolean; name: string; springConfig?: { type: string; stiffness: number; damping: number } }) => {
+const CakeSVG = memo(({ cake, split, candlesLit, name, springConfig }: { cake: CakeOption; split: boolean; candlesLit: boolean; name: string; springConfig?: { type: "spring"; stiffness: number; damping: number } }) => {
   const isMobile = useIsMobile();
   return (
   <motion.div 
     animate={{ rotateX: split ? 25 : 8, rotateY: split ? 5 : 0, scale: split ? 1.15 : 1 }}
     transition={springConfig ?? { type: "spring", stiffness: 80, damping: 12 }}
-    className="relative preserve-3d"
-    style={{ perspective: "1500px" }}
+    className="relative preserve-3d will-change-transform"
+    style={{ perspective: "1500px", transform: "translateZ(0)" }}
   >
     <svg viewBox="0 0 200 200" className="w-64 sm:w-80 md:w-[32rem] mx-auto drop-shadow-[0_40px_80px_rgba(0,0,0,0.7)]">
       <defs>
@@ -176,7 +177,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
 
       {/* Bottom Layer (Splittable) */}
       <g style={{ transform: split ? "translateX(-40px) rotate(-12deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill={cake.layers[0]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
+        <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill={cake.layers[0]} filter="url(#cakeDepth)" />
         <path d="M15,140 L15,175 Q57.5,185 100,180 L100,140 Q57.5,130 15,140 Z" fill="url(#layerGrad)" />
         <path d="M15,140 Q57.5,150 100,140 Q57.5,130 15,140 Z" fill={cake.frosting} />
         {/* Drip Effect */}
@@ -184,7 +185,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
         <path d="M60,142 Q65,155 70,142" fill={cake.frosting} opacity="0.8" />
       </g>
       <g style={{ transform: split ? "translateX(40px) rotate(12deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill={cake.layers[0]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
+        <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill={cake.layers[0]} filter="url(#cakeDepth)" />
         <path d="M100,180 Q142.5,185 185,175 L185,140 Q142.5,130 100,140 L100,180 Z" fill="url(#layerGrad)" />
         <path d="M100,140 Q142.5,150 185,140 Q142.5,130 100,140 Z" fill={cake.frosting} />
         {/* Drip Effect */}
@@ -194,14 +195,14 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
 
       {/* Middle Layer (Splittable) */}
       <g style={{ transform: split ? "translateX(-25px) rotate(-8deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill={cake.layers[1]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
+        <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill={cake.layers[1]} filter="url(#cakeDepth)" />
         <path d="M30,95 L30,130 Q65,140 100,135 L100,95 Q65,85 30,95 Z" fill="url(#layerGrad)" />
         <path d="M30,95 Q65,105 100,95 Q65,85 30,95 Z" fill={cake.frosting} opacity="0.9" />
         {/* Drip Effect */}
         <path d="M45,100 Q50,115 55,100" fill={cake.frosting} opacity="0.8" />
       </g>
       <g style={{ transform: split ? "translateX(25px) rotate(8deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill={cake.layers[1]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
+        <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill={cake.layers[1]} filter="url(#cakeDepth)" />
         <path d="M100,135 Q135,140 170,130 L170,95 Q135,85 100,95 L100,135 Z" fill="url(#layerGrad)" />
         <path d="M100,95 Q135,105 170,95 Q135,85 100,95 Z" fill={cake.frosting} opacity="0.9" />
         {/* Drip Effect */}
@@ -210,7 +211,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
 
       {/* Top Layer (Splittable) */}
       <g style={{ transform: split ? "translateX(-15px) rotate(-5deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill={cake.layers[2]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
+        <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill={cake.layers[2]} filter="url(#cakeDepth)" />
         <path d="M45,50 L45,85 Q72.5,95 100,90 L100,50 Q72.5,40 45,50 Z" fill="url(#layerGrad)" />
         <path d="M45,50 Q72.5,60 100,50 Q72.5,40 45,50 Z" fill={cake.frosting} />
         <path d="M45,50 Q72.5,60 100,50 Q72.5,40 45,50 Z" fill="url(#topFrosting)" />
@@ -218,7 +219,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
         <path d="M60,55 Q65,70 70,55" fill={cake.frosting} opacity="0.8" />
       </g>
       <g style={{ transform: split ? "translateX(15px) rotate(5deg)" : "translateX(0) rotate(0)", transition: "all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-        <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill={cake.layers[2]} filter={!isMobile ? "url(#cakeDepth)" : undefined} />
+        <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill={cake.layers[2]} filter="url(#cakeDepth)" />
         <path d="M100,90 Q127.5,95 155,85 L155,50 Q127.5,40 100,50 L100,90 Z" fill="url(#layerGrad)" />
         <path d="M100,50 Q127.5,60 155,50 Q127.5,40 100,50 Z" fill={cake.frosting} />
         <path d="M100,50 Q127.5,60 155,50 Q127.5,40 100,50 Z" fill="url(#topFrosting)" />
@@ -231,7 +232,7 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
         <g key={i} style={{ transform: split ? (cx < 100 ? "translateX(-15px) rotate(-5deg)" : cx > 100 ? "translateX(15px) rotate(5deg)" : "scale(0.8) translateY(10px)") : "none", transition: "all 1s ease" }}>
           <rect x={cx - 1.5} y="15" width="3" height="35" rx="1.5" fill={`hsl(${i * 50 + 180}, 80%, 70%)`} />
           {candlesLit ? (
-            <g className="animate-flame-premium" filter={!isMobile ? "url(#candleGlow)" : undefined}>
+            <g className="animate-flame-premium" filter="url(#candleGlow)">
               <ellipse cx={cx} cy="5" rx="6" ry="12" fill={cake.accent} style={{ filter: "blur(1px)" }} />
               <ellipse cx={cx} cy="6" rx="2.5" ry="7" fill="white" />
               <circle cx={cx} cy="5" r="20" fill={cake.accent} opacity="0.2" className="animate-pulse" />
@@ -255,7 +256,11 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
           textAnchor="middle" 
           fill="#d4af37" 
           className="font-display font-black uppercase" 
-          style={{ fontSize: '9px', textShadow: '0 1px 2px rgba(0,0,0,0.8)', letterSpacing: '2px' }}
+          style={{ 
+            fontSize: '9px', 
+            textShadow: '0 1px 2px rgba(0,0,0,0.8)', 
+            letterSpacing: /[\u0600-\u06FF]/.test(name) ? '0' : '2px' 
+          }}
         >
           {name}
         </text>
@@ -268,9 +273,9 @@ const CakeSVG = ({ cake, split, candlesLit, name, springConfig }: { cake: CakeOp
     </svg>
   </motion.div>
   );
-};
+});
 
-const KnifeSVG = ({ phase }: { phase: Phase }) => {
+const KnifeSVG = memo(({ phase }: { phase: Phase }) => {
   const isMobile = useIsMobile();
   return (
     <motion.div 
@@ -282,7 +287,8 @@ const KnifeSVG = ({ phase }: { phase: Phase }) => {
         scale: phase === "cutting" ? 1.2 : 1
       }}
       transition={{ type: "spring", stiffness: isMobile ? 120 : 200, damping: isMobile ? 18 : 20 }}
-      className="absolute left-1/2 -translate-x-1/2 z-40"
+      className="absolute left-1/2 -translate-x-1/2 z-40 will-change-transform"
+      style={{ transform: "translateZ(0)" }}
   >
     <svg viewBox="0 0 40 150" className="w-12 sm:w-16 md:w-20 drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
       <defs>
@@ -298,9 +304,9 @@ const KnifeSVG = ({ phase }: { phase: Phase }) => {
     </svg>
   </motion.div>
   );
-};
+});
 
-const CakeCard = ({ cake, index, onSelect }: { cake: CakeOption; index: number; onSelect: () => void }) => {
+const CakeCard = memo(({ cake, index, onSelect }: { cake: CakeOption; index: number; onSelect: () => void }) => {
   const isMobile = useIsMobile();
   return (
     <motion.button
@@ -319,6 +325,8 @@ const CakeCard = ({ cake, index, onSelect }: { cake: CakeOption; index: number; 
       <img
         src={cake.image}
         alt={cake.name}
+        loading="eager"
+        decoding="async"
         className={`w-full h-full object-cover transition-transform duration-700 ${!isMobile ? "group-hover:scale-110" : ""}`}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
@@ -341,7 +349,7 @@ const CakeCard = ({ cake, index, onSelect }: { cake: CakeOption; index: number; 
     <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
   </motion.button>
 );
-};
+});
 
 export const CakeCutting = () => {
   const isMobile = useIsMobile();
@@ -427,7 +435,7 @@ export const CakeCutting = () => {
   const lowMotion = isMobile || reduceMotion;
   const dustCount = isMobile ? 6 : 40;
   const sparkCount = isMobile ? 8 : 30;
-  const cakeSpring = { type: "spring", stiffness: isMobile ? 45 : 80, damping: isMobile ? 20 : 12 };
+  const cakeSpring = { type: "spring", stiffness: isMobile ? 45 : 80, damping: isMobile ? 20 : 12 } as const;
 
   return (
     <>
